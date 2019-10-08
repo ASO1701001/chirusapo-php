@@ -13,4 +13,5 @@ class Error {
     public static $ALREADY_EMAIL = 'ALREADY_EMAIL';
     public static $UNKNOWN_USER = 'UNKNOWN_USER';
     public static $MAIL_SEND = 'MAIL_SEND';
+    public static $UNKNOWN_TOKEN = 'UNKNOWN_TOKEN';
 }
