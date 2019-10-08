@@ -7,14 +7,18 @@ use Application\lib\Validation;
 use Application\lib\Error;
 use Application\app\AccountManager;
 use Application\app\TokenManager;
+use Application\app\GroupManager;
 
 require_once __DIR__.'/../lib/Validation.php';
 require_once __DIR__.'/../lib/Error.php';
 require_once __DIR__.'/../app/functions.php';
 require_once __DIR__.'/../app/AccountManager.php';
 require_once __DIR__.'/../app/TokenManager.php';
+require_once __DIR__.'/../app/GroupManager.php';
 
-class AccountController extends Controller {
+class AccountController
+    // extends Controller
+{
     public function sign_up(Request $request, Response $response) {
         $param = array_escape($request->getParsedBody());
 
@@ -79,12 +83,14 @@ class AccountController extends Controller {
                 } else {
                     $id = AccountManager::sign_up($user_id, $user_name, $email, $password, $gender, $birthday);
                     $token = TokenManager::add_token($id);
+                    $user_info = AccountManager::user_info($id);
 
                     $result = [
                         'status' => 200,
                         'message' => null,
                         'data' => [
-                            'token' => $token
+                            'token' => $token,
+                            'user_info' => $user_info
                         ]
                     ];
                 }
@@ -136,12 +142,16 @@ class AccountController extends Controller {
                     ];
                 } else {
                     $token = TokenManager::add_token($id);
+                    $user_info = AccountManager::user_info($id);
+                    $belong_group = GroupManager::belong_group($id);
 
                     $result = [
                         'status' => 200,
                         'message' => null,
                         'data' => [
-                            'token' => $token
+                            'token' => $token,
+                            'user_info' => $user_info,
+                            'belong_group' => $belong_group
                         ]
                     ];
                 }
