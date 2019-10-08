@@ -14,10 +14,10 @@ class TokenManager {
     public static function verify_token($token) {
 //        require_once __DIR__.'/../lib/DatabaseManager.php';
         $db = new DatabaseManager();
-        $sql = "SELECT count(*) FROM account_user_token WHERE token = :token AND timestamp > :timestamp";
+        $sql = "SELECT count(*) FROM account_user_token WHERE token = :token AND expiration_date > :timestamp";
         $count = $db->fetchColumn($sql, [
             'token' => $token,
-            'timestamp' => time()
+            'timestamp' => date('Y-m-d H:i:s', strtotime('+1 month'))
         ]);
         return $count == 0 ? false : true;
     }
