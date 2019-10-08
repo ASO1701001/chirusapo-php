@@ -9,7 +9,6 @@ require_once __DIR__.'/../lib/Mailer.php';
 
 class AccountManager {
     public static function sign_up($user_id, $user_name, $email, $password, $gender, $birthday) {
-//        require_once __DIR__.'/../lib/DatabaseManager.php';
         $db = new DatabaseManager();
         $sql = "INSERT INTO account_user (user_id, user_name, email, password, gender, birthday) VALUES (:user_id, :user_name, :email, :password, :gender, :birthday)";
         $id = $db->insert($sql, [
@@ -24,7 +23,6 @@ class AccountManager {
     }
 
     public static function sign_in($user_id, $password) {
-//        require_once __DIR__.'/../lib/DatabaseManager.php';
         $db = new DatabaseManager();
         $sql = "SELECT id, password FROM account_user WHERE user_id = :user_id OR email = :email";
         $data = $db->fetch($sql, [
@@ -40,7 +38,6 @@ class AccountManager {
     }
 
     public static function already_user_id($user_id) {
-//        require_once __DIR__.'/../lib/DatabaseManager.php';
         $db = new DatabaseManager();
         $sql = "SELECT count(*) FROM account_user WHERE user_id = :user_id";
         $data = $db->fetchColumn($sql, [
@@ -50,7 +47,6 @@ class AccountManager {
     }
 
     public static function already_email($email) {
-//        require_once __DIR__.'/../lib/DatabaseManager.php';
         $db = new DatabaseManager();
         $sql = "SELECT count(*) FROM account_user WHERE email = :email";
         $data = $db->fetchColumn($sql, [
