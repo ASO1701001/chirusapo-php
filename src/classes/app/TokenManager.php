@@ -12,7 +12,6 @@ class TokenManager {
      * @return bool
      */
     public static function verify_token($token) {
-//        require_once __DIR__.'/../lib/DatabaseManager.php';
         $db = new DatabaseManager();
         $sql = "SELECT count(*) FROM account_user_token WHERE token = :token AND expiration_date > :timestamp";
         $count = $db->fetchColumn($sql, [
@@ -27,7 +26,6 @@ class TokenManager {
      * @return bool|int
      */
     public static function get_user_id($token) {
-//        require_once __DIR__.'/../lib/DatabaseManager.php';
         if (!self::verify_token($token)) {
             return false;
         }
@@ -44,7 +42,6 @@ class TokenManager {
      * @return string
      */
     public static function add_token($user_id) {
-//        require_once __DIR__.'/../lib/DatabaseManager.php';
         do {
             $token = random(30);
         } while (self::count_token($token) > 0);
@@ -63,7 +60,6 @@ class TokenManager {
      * @return int
      */
     public static function count_token($token) {
-//        require_once __DIR__.'/../lib/DatabaseManager.php';
         $db = new DatabaseManager();
         $sql = "SELECT count(*) FROM account_user_token WHERE token = :token";
         $count = $db->fetchColumn($sql, [
