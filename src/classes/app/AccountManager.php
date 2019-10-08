@@ -31,7 +31,6 @@ class AccountManager {
             'user_id' => $user_id,
             'email' => $user_id
         ]);
-        var_dump($data);
         if (!empty($data)) {
             if (password_verify($password, $data['password'])) {
                 return $data['id'];
@@ -92,5 +91,19 @@ class AccountManager {
 EOF;
 
         return new Mailer($email, $subject, $body);
+    }
+
+    public static function user_info($user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT user_id, user_name, email, icon_file_name FROM account_user WHERE id = :user_id";
+        $data = $db->fetch($sql, [
+            'user_id' => $user_id
+        ]);
+        return [
+            'user_id' => $data['user_id'],
+            'user_name' => $data['user_name'],
+            'email' => $data['email'],
+            'user_icon' => !empty($data['icon_file_name']) ? 'https://storage.googleapis.com/chirusapo/user-icon/'.$data['icon_file_name'] : null
+        ];
     }
 }
