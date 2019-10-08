@@ -3,10 +3,5 @@
     "slim/slim": "^3.12",
     "swiftmailer/swiftmailer": "^6.0",
     "ext-pdo": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "Classes\\": "src/classes"
-    }
   }
 }
