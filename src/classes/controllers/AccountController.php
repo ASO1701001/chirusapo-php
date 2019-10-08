@@ -16,9 +16,7 @@ require_once __DIR__.'/../app/AccountManager.php';
 require_once __DIR__.'/../app/TokenManager.php';
 require_once __DIR__.'/../app/GroupManager.php';
 
-class AccountController
-    // extends Controller
-{
+class AccountController {
     public function sign_up(Request $request, Response $response) {
         $param = array_escape($request->getParsedBody());
 
