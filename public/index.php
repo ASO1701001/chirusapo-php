@@ -2,6 +2,7 @@
 
 use Classes\Controllers\IndexController;
 use Classes\Controllers\AccountController;
+use Classes\controllers\MasterController;
 use Classes\controllers\TokenController;
 use Classes\controllers\GroupController;
 use Slim\App;
@@ -10,6 +11,7 @@ use Slim\Http\Response;
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/../src/classes/controllers/IndexController.php';
+require_once __DIR__.'/../src/classes/controllers/MasterController.php';
 require_once __DIR__.'/../src/classes/controllers/AccountController.php';
 require_once __DIR__.'/../src/classes/controllers/TokenController.php';
 require_once __DIR__.'/../src/classes/controllers/GroupController.php';
@@ -63,6 +65,8 @@ $c['notAllowedHandler'] = function ($c) {
 };
 
 $app->get('/', IndexController::class.':index');
+
+$app->get('/start/master-download', MasterController::class.':master_download');
 
 $app->post('/account/signup', AccountController::class.':sign_up');
 $app->post('/account/signin', AccountController::class.':sign_in');
