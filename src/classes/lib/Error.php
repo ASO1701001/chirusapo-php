@@ -14,4 +14,6 @@ class Error {
     public static $UNKNOWN_USER = 'UNKNOWN_USER';
     public static $MAIL_SEND = 'MAIL_SEND';
     public static $UNKNOWN_TOKEN = 'UNKNOWN_TOKEN';
+    public static $UNKNOWN_GROUP = 'UNKNOWN_GROUP';
+    public static $ALREADY_BELONG_GROUP = 'ALREADY_BELONG_GROUP';
 }
