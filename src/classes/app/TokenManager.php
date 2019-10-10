@@ -13,10 +13,10 @@ class TokenManager {
      */
     public static function verify_token($token) {
         $db = new DatabaseManager();
-        $sql = "SELECT count(*) FROM account_user_token WHERE token = :token AND expiration_date > :timestamp";
+        $sql = "SELECT count(*) FROM account_user_token WHERE token = :token AND expiration_date > :expiration_date";
         $count = $db->fetchColumn($sql, [
             'token' => $token,
-            'timestamp' => date('Y-m-d H:i:s', strtotime('+1 month'))
+            'expiration_date' => date('Y-m-d H:i:s')
         ]);
         return $count == 0 ? false : true;
     }
@@ -66,5 +66,21 @@ class TokenManager {
             'token' => $token
         ]);
         return $count;
+    }
+
+    public static function delete_token($token) {
+        $db = new DatabaseManager();
+        $sql = "DELETE FROM account_user_token WHERE token = :token";
+        $db->execute($sql, [
+            'token' => $token
+        ]);
+    }
+
+    public static function delete_user_id_token($user_id) {
+        $db = new DatabaseManager();
+        $sql = "DELETE FROM account_user_token WHERE user_id = :user_id";
+        $db->execute($sql, [
+            'user_id' => $user_id
+        ]);
     }
 }

@@ -33,7 +33,7 @@ class TokenController {
             if ($verify_token) {
                 $user_id = TokenManager::get_user_id($token);
                 $user_info = AccountManager::user_info($user_id);
-                $belong_group = GroupManager::belong_group($user_id);
+                $belong_group = GroupManager::belong_my_group($user_id);
 
                 $result = [
                     'status' => 200,
