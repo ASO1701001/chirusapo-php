@@ -141,7 +141,7 @@ class AccountController {
                 } else {
                     $token = TokenManager::add_token($id);
                     $user_info = AccountManager::user_info($id);
-                    $belong_group = GroupManager::belong_group($id);
+                    $belong_group = GroupManager::belong_my_group($id);
 
                     $result = [
                         'status' => 200,
