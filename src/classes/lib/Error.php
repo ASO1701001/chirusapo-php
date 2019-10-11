@@ -15,5 +15,11 @@ class Error {
     public static $MAIL_SEND = 'MAIL_SEND';
     public static $UNKNOWN_TOKEN = 'UNKNOWN_TOKEN';
     public static $UNKNOWN_GROUP = 'UNKNOWN_GROUP';
+    public static $ALREADY_CREATE_GROUP = 'ALREADY_CREATE_GROUP';
     public static $ALREADY_BELONG_GROUP = 'ALREADY_BELONG_GROUP';
+
+    public static $VALIDATION_GROUP_ID = 'VALIDATION_GROUP_ID';
+    public static $VALIDATION_GROUP_NAME = 'VALIDATION_GROUP_NAME';
+
+    public static $VERIFY_PIN_CODE = 'VERIFY_PIN_CODE';
 }
