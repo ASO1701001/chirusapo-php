@@ -22,7 +22,7 @@
         "belong_group": [
             {
                 "group_id": "*group_id*",
-                "group_name": "*group_name*", 
+                "group_name": "*group_name*"
             }
         ]
     }

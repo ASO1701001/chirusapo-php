@@ -31,8 +31,8 @@
     "message": [
         "REQUIRED_PARAM",
         "VALIDATION_USER_ID",
-        "VALIDATION_PASSWORD",
         "UNKNOWN_USER",
+        "MAIL_SEND"
     ],
     "data": null
 }
