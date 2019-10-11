@@ -20,3 +20,6 @@
 
 ### [グループ参加](/_api-document/group/join.md)
 /group/join
+
+### [所属メンバー取得](/_api-document/group/belong-member.md)
+/group/belong-member
