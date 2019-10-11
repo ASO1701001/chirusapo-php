@@ -6,8 +6,18 @@ use Application\lib\Mailer;
 
 require_once __DIR__.'/../lib/DatabaseManager.php';
 require_once __DIR__.'/../lib/Mailer.php';
+require_once 'TokenManager.php';
 
 class AccountManager {
+    /** アカウント登録
+     * @param $user_id
+     * @param $user_name
+     * @param $email
+     * @param $password
+     * @param $gender
+     * @param $birthday
+     * @return string
+     */
     public static function sign_up($user_id, $user_name, $email, $password, $gender, $birthday) {
         $db = new DatabaseManager();
         $sql = "INSERT INTO account_user (user_id, user_name, email, password, gender, birthday) VALUES (:user_id, :user_name, :email, :password, :gender, :birthday)";
@@ -22,6 +32,11 @@ class AccountManager {
         return $id;
     }
 
+    /** ログイン
+     * @param $user_id
+     * @param $password
+     * @return bool
+     */
     public static function sign_in($user_id, $password) {
         $db = new DatabaseManager();
         $sql = "SELECT id, password FROM account_user WHERE user_id = :user_id OR email = :email";
@@ -37,6 +52,10 @@ class AccountManager {
         return false;
     }
 
+    /** 既にユーザーIDが登録されているか返す
+     * @param $user_id
+     * @return bool
+     */
     public static function already_user_id($user_id) {
         $db = new DatabaseManager();
         $sql = "SELECT count(*) FROM account_user WHERE user_id = :user_id";
@@ -46,6 +65,10 @@ class AccountManager {
         return $data == 0 ? true : false;
     }
 
+    /** 既にメールアドレスが登録されているか返す
+     * @param $email
+     * @return bool
+     */
     public static function already_email($email) {
         $db = new DatabaseManager();
         $sql = "SELECT count(*) FROM account_user WHERE email = :email";
@@ -55,6 +78,10 @@ class AccountManager {
         return $data == 0 ? true : false;
     }
 
+    /** 既にユーザーIDかメールアドレスが登録されているか返す
+     * @param $user_id
+     * @return bool|int
+     */
     public static function already_user_id_or_email($user_id) {
         $db = new DatabaseManager();
         $sql = "SELECT id FROM account_user WHERE user_id = :user_id OR email = :email";
@@ -65,6 +92,10 @@ class AccountManager {
         return $id ? $id : false;
     }
 
+    /** パスワードをリセットする
+     * @param $user_id
+     * @return Mailer
+     */
     public static function password_reset($user_id) {
         $db = new DatabaseManager();
         $sql = "SELECT email FROM account_user WHERE id = :id";
@@ -89,6 +120,46 @@ EOF;
         return new Mailer($email, $subject, $body);
     }
 
+    /** パスワードを変更する
+     * @param $user_id
+     * @param $new_password
+     * @param $old_password
+     * @return bool
+     */
+    public static function password_change($user_id, $new_password, $old_password) {
+        $db = new DatabaseManager();
+        $sql = "SELECT password FROM account_user WHERE id = :user_id";
+        $now_password = $db->fetchColumn($sql, [
+            'user_id' => $user_id
+        ]);
+        if (password_verify($old_password, $now_password)) {
+            $sql = "UPDATE account_user SET password = :password WHERE id = :user_id";
+            $db->execute($sql, [
+                'password' => password_hash($new_password, PASSWORD_DEFAULT),
+                'user_id' => $user_id
+            ]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /** 退会する
+     * @param $user_id
+     */
+    public static function resign($user_id) {
+        $db = new DatabaseManager();
+        $sql = "UPDATE account_user SET resign_flg = true WHERE id = :user_id";
+        $db->execute($sql, [
+            'user_id' => $user_id
+        ]);
+        TokenManager::delete_user_id_token($user_id);
+    }
+
+    /** ユーザー情報を返す
+     * @param $user_id
+     * @return array
+     */
     public static function user_info($user_id) {
         $db = new DatabaseManager();
         $sql = "SELECT user_id, user_name, email, icon_file_name FROM account_user WHERE id = :user_id";
