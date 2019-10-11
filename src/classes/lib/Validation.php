@@ -9,6 +9,9 @@ class Validation {
     public static $BIRTHDAY = 'birthday';
     public static $GENDER = 'gender';
     public static $USER_ID_OR_EMAIL = 'user_id_or_email';
+    public static $GROUP_ID = 'group_id';
+    public static $GROUP_NAME = 'group_name';
+    public static $PIN_CODE = 'pin_code';
     /*
     public static $BODY_HEIGHT = 'body_height';
     public static $BODY_WEIGHT = 'body_weight';
@@ -37,6 +40,15 @@ class Validation {
                 break;
             case self::$USER_ID_OR_EMAIL:
                 $regex = '/^[a-zA-Z0-9-_.@+]{4,}$/';
+                break;
+            case self::$GROUP_ID:
+                $regex = '/^[a-zA-Z0-9-_]{5,30}$/';
+                break;
+            case self::$GROUP_NAME:
+                $regex = '/^.{1,30}$/';
+                break;
+            case self::$PIN_CODE:
+                $regex = '/^[0-9]{4}$/';
                 break;
             /*
             case self::$BODY_HEIGHT:
