@@ -76,6 +76,8 @@ $app->post('/token/verify-token', TokenController::class.':verify_token');
 
 $app->post('/group/join', GroupController::class.':group_join');
 $app->post('/group/create', GroupController::class.':group_create');
+$app->post('/group/belong-member', GroupController::class.':belong_member');
+
 /*
  * 自分が所属しているグループ
  * グループないのユーザー

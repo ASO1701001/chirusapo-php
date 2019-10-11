@@ -35,15 +35,22 @@ class GroupManager {
      * @param $group_id
      * @return array
      */
-    public static function belong_user_group($group_id) {
+    public static function belong_member($group_id) {
         $db = new DatabaseManager();
         $sql = "SELECT au.user_id, au.user_name, au.icon_file_name
                 FROM group_user gu
-                LEFT JOIN account_user au ON gu.user_id = au.user_id
+                LEFT JOIN account_user au ON gu.user_id = au.id
                 WHERE gu.group_id = :group_id";
         $data = $db->fetchAll($sql, [
             'group_id' => $group_id
         ]);
+        foreach ($data as $key => $value) {
+            $data[$key] = [
+                'user_id' => $value['user_id'],
+                'user_name' => $value['user_name'],
+                'user_icon' => !empty($value['icon_file_name']) ? 'https://storage.googleapis.com/chirusapo/user-icon/'.$value['icon_file_name'] : null
+            ];
+        }
         return $data;
     }
 

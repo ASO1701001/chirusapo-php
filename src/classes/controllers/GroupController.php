@@ -150,4 +150,74 @@ class GroupController {
 
         return $response->withJson($result);
     }
+    
+    public static function belong_member(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $group_id = isset($param['group_id']) ? $param['group_id'] : null;
+
+        $error = [];
+
+        if (is_null($token) || is_null($group_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $validation_group_id = Validation::fire($group_id, Validation::$GROUP_ID);
+
+            if (!$validation_group_id) {
+                $result = [
+                    'status' => 400,
+                    'message' => [
+                        Error::$VALIDATION_GROUP_ID
+                    ],
+                    'data' => null
+                ];
+            } else {
+                $user_id = TokenManager::get_user_id($token);
+                $already_group = GroupManager::already_group_id($group_id);
+
+                if (!$user_id || !$already_group) {
+                    if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                    if (!$already_group) $error[] = Error::$UNKNOWN_GROUP;
+
+                    $result = [
+                        'status' => 400,
+                        'message' => $error,
+                        'data' => null
+                    ];
+                } else {
+                    $inner_group_id = GroupManager::get_group_id($group_id);
+                    $already_belong = GroupManager::already_belong_group($inner_group_id, $user_id);
+
+                    if ($already_belong) {
+                        $belong_member = GroupManager::belong_member($inner_group_id);
+
+                        $result = [
+                            'status' => 200,
+                            'message' => null,
+                            'data' => [
+                                'belong_member' => $belong_member
+                            ]
+                        ];
+                    } else {
+                        $result = [
+                            'status' => 400,
+                            'message' => [
+                                Error::$UNREADY_BELONG_GROUP
+                            ],
+                            'data' => null
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $response->withJson($result);
+    }
 }
