@@ -4,6 +4,7 @@ namespace Classes\controllers;
 use Application\app\GroupManager;
 use Application\app\TokenManager;
 use Application\lib\Error;
+use Application\lib\Validation;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -30,12 +31,12 @@ class GroupController {
                 'data' => null
             ];
         } else {
-            $user_id = TokenManager::get_user_id($token);
-            $already_group = GroupManager::already_group_id($group_id);
+            $validation_group_id = Validation::fire($group_id, Validation::$GROUP_ID);
+            $validation_pin_code = Validation::fire($pin_code, Validation::$PIN_CODE);
 
-            if (!$user_id || !$already_group) {
-                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
-                if (!$already_group) $error[] = Error::$UNKNOWN_GROUP;
+            if (!$validation_group_id || !$validation_pin_code) {
+                if (!$validation_group_id) $error[] = Error::$VALIDATION_GROUP_ID;
+                if (!$validation_pin_code) $error[] = Error::$VALIDATION_PIN_CODE;
 
                 $result = [
                     'status' => 400,
@@ -43,27 +44,41 @@ class GroupController {
                     'data' => null
                 ];
             } else {
-                $inner_group_id = GroupManager::get_group_id($group_id);
-                $already_belong = GroupManager::already_belong_group($inner_group_id, $user_id);
-                $verify_pin_code = GroupManager::pin_code_verify($inner_group_id, $pin_code);
+                $user_id = TokenManager::get_user_id($token);
+                $already_group = GroupManager::already_group_id($group_id);
 
-                if (!$already_belong && $verify_pin_code) {
-                    GroupManager::join_group($inner_group_id, $user_id);
-
-                    $result = [
-                        'status' => 200,
-                        'message' => null,
-                        'data' => null
-                    ];
-                } else {
-                    if ($already_belong) $error[] = Error::$ALREADY_BELONG_GROUP;
-                    if (!$verify_pin_code) $error[] = Error::$VERIFY_PIN_CODE;
+                if (!$user_id || !$already_group) {
+                    if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                    if (!$already_group) $error[] = Error::$UNKNOWN_GROUP;
 
                     $result = [
                         'status' => 400,
                         'message' => $error,
                         'data' => null
                     ];
+                } else {
+                    $inner_group_id = GroupManager::get_group_id($group_id);
+                    $already_belong = GroupManager::already_belong_group($inner_group_id, $user_id);
+                    $verify_pin_code = GroupManager::pin_code_verify($inner_group_id, $pin_code);
+
+                    if (!$already_belong && $verify_pin_code) {
+                        GroupManager::join_group($inner_group_id, $user_id);
+
+                        $result = [
+                            'status' => 200,
+                            'message' => null,
+                            'data' => null
+                        ];
+                    } else {
+                        if ($already_belong) $error[] = Error::$ALREADY_BELONG_GROUP;
+                        if (!$verify_pin_code) $error[] = Error::$VERIFY_PIN_CODE;
+
+                        $result = [
+                            'status' => 400,
+                            'message' => $error,
+                            'data' => null
+                        ];
+                    }
                 }
             }
         }
@@ -89,12 +104,12 @@ class GroupController {
                 'data' => null
             ];
         } else {
-            $user_id = TokenManager::get_user_id($token);
-            $already_group = GroupManager::already_group_id($group_id);
+            $validation_group_id = Validation::fire($group_id, Validation::$GROUP_ID);
+            $validation_group_name = Validation::fire($group_name, Validation::$GROUP_NAME);
 
-            if (!$user_id || $already_group) {
-                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
-                if ($already_group) $error[] = Error::$ALREADY_CREATE_GROUP;
+            if (!$validation_group_id || !$validation_group_name) {
+                if (!$validation_group_id) $error[] = Error::$VALIDATION_GROUP_ID;
+                if (!$validation_group_name) $error[] = Error::$VALIDATION_GROUP_NAME;
 
                 $result = [
                     'status' => 400,
@@ -102,14 +117,28 @@ class GroupController {
                     'data' => null
                 ];
             } else {
-                $inner_group_id = GroupManager::create_group($group_id, $group_name);
-                GroupManager::join_group($inner_group_id, $user_id);
+                $user_id = TokenManager::get_user_id($token);
+                $already_group = GroupManager::already_group_id($group_id);
 
-                $result = [
-                    'status' => 200,
-                    'message' => null,
-                    'data' => null
-                ];
+                if (!$user_id || $already_group) {
+                    if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                    if ($already_group) $error[] = Error::$ALREADY_CREATE_GROUP;
+
+                    $result = [
+                        'status' => 400,
+                        'message' => $error,
+                        'data' => null
+                    ];
+                } else {
+                    $inner_group_id = GroupManager::create_group($group_id, $group_name);
+                    GroupManager::join_group($inner_group_id, $user_id);
+
+                    $result = [
+                        'status' => 200,
+                        'message' => null,
+                        'data' => null
+                    ];
+                }
             }
         }
 
