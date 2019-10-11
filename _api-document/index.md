@@ -14,3 +14,9 @@
 
 ### [ログイントークン検証](/_api-document/token/verify-token.md)
 /token/verify-token
+
+### [グループ作成](/_api-document/group/create.md)
+/group/create
+
+### [グループ参加](/_api-document/group/join.md)
+/group/join
