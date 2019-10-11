@@ -63,11 +63,14 @@ class GroupController {
 
                     if (!$already_belong && $verify_pin_code) {
                         GroupManager::join_group($inner_group_id, $user_id);
+                        $belong_group = GroupManager::belong_my_group($user_id);
 
                         $result = [
                             'status' => 200,
                             'message' => null,
-                            'data' => null
+                            'data' => [
+                                'belong_group' => $belong_group
+                            ]
                         ];
                     } else {
                         if ($already_belong) $error[] = Error::$ALREADY_BELONG_GROUP;
@@ -132,11 +135,14 @@ class GroupController {
                 } else {
                     $inner_group_id = GroupManager::create_group($group_id, $group_name);
                     GroupManager::join_group($inner_group_id, $user_id);
+                    $belong_group = GroupManager::belong_my_group($user_id);
 
                     $result = [
                         'status' => 200,
                         'message' => null,
-                        'data' => null
+                        'data' => [
+                            'belong_group' => $belong_group
+                        ]
                     ];
                 }
             }
