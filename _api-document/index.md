@@ -1,16 +1,16 @@
 # ChiruSapo API Document!
 
-### [マスターダウンロード](/start/master-download.md)
-[/start/master-download](/start/master-download.md)
+### [マスターダウンロード](/_api-document/start/master-download.md)
+/start/master-download
 
 ### アカウント登録
-[/account/signup](/account/signup.md)
+[/account/signup](/_api-document/account/signup.md)
 
 ### ログイン
-[/account/signin](/account/signin.md)
+[/account/signin](/_api-document/account/signin.md)
 ### パスワードリセット
-[/account/password-reset](/account/password-reset.md)
+[/account/password-reset](/_api-document/account/password-reset.md)
 
 ### ログイントークン検証
-[/token/verify-token](/token/verify-token.md)
+[/token/verify-token](/_api-document/token/verify-token.md)
 
