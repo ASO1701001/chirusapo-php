@@ -74,10 +74,16 @@ $app->post('/account/password-reset', AccountController::class.':password_reset'
 
 $app->post('/token/verify-token', TokenController::class.':verify_token');
 
-/*
 $app->post('/group/join', GroupController::class.':group_join');
 $app->post('/group/create', GroupController::class.':group_create');
-*/
+/*
+ * 自分が所属しているグループ
+ * グループないのユーザー
+ * グループ退会
+ * グループ退会（強制）
+ * グループ削除
+ */
+
 
 /*
 $app->post('/account/signout', AccountController::class.':signout');
