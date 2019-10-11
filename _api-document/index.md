@@ -3,14 +3,14 @@
 ### [マスターダウンロード](/_api-document/start/master-download.md)
 /start/master-download
 
-### アカウント登録
-[/account/signup](/_api-document/account/signup.md)
+### [アカウント登録](/_api-document/account/signup.md)
+/account/signup
 
-### ログイン
-[/account/signin](/_api-document/account/signin.md)
-### パスワードリセット
-[/account/password-reset](/_api-document/account/password-reset.md)
+### [ログイン](/_api-document/account/signin.md)
+/account/signin
 
-### ログイントークン検証
-[/token/verify-token](/_api-document/token/verify-token.md)
+### [パスワードリセット](/_api-document/account/password-reset.md)
+/account/password-reset
 
+### [ログイントークン検証](/_api-document/token/verify-token.md)
+/token/verify-token
