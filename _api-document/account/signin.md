@@ -26,7 +26,7 @@
         "belong_group": [
             {
                 "group_id": "*group_id*",
-                "group_name": "*group_name*", 
+                "group_name": "*group_name*"
             }
         ]
     }
@@ -48,7 +48,7 @@
         "REQUIRED_PARAM",
         "VALIDATION_USER_ID",
         "VALIDATION_PASSWORD",
-        "UNKNOWN_USER",
+        "UNKNOWN_USER"
     ],
     "data": null
 }
