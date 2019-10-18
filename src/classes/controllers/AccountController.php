@@ -1,6 +1,7 @@
 <?php
 namespace Classes\Controllers;
 
+use Classes\lib\GoogleCloudStorage as GCS;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Application\lib\Validation;
@@ -11,6 +12,7 @@ use Application\app\GroupManager;
 
 require_once __DIR__.'/../lib/Validation.php';
 require_once __DIR__.'/../lib/Error.php';
+require_once __DIR__.'/../lib/GoogleCloudStorage.php';
 require_once __DIR__.'/../app/functions.php';
 require_once __DIR__.'/../app/AccountManager.php';
 require_once __DIR__.'/../app/TokenManager.php';
@@ -214,6 +216,110 @@ class AccountController {
                             'data' => null
                         ];
                     }
+                }
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
+    public static function account_edit(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+        $upload_file = $request->getUploadedFiles();
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $user_icon = isset($upload_file['user_icon']) ? $upload_file['user_icon'] : null;
+        $user_name = isset($param['user_name']) ? $param['user_name'] : null;
+        $line_id = isset($param['line_id']) ? $param['line_id'] : null;
+        $introduction = isset($param['introduction']) ? $param['introduction'] : null;
+
+        $error = [];
+
+        if (is_null($token)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+
+            if (!$user_id) {
+                $result = [
+                    'status' => 400,
+                    'message' => [
+                        Error::$UNKNOWN_TOKEN
+                    ],
+                    'data' => null
+                ];
+            } else {
+                $update_flg = true;
+                $icon_file_name = false;
+
+                if (!is_null($user_name)) {
+                    $validation_user_name = Validation::fire($user_name, Validation::$USER_NAME);
+
+                    if (!$validation_user_name) {
+                        $error[] = Error::$VALIDATION_USER_NAME;
+                        $update_flg = false;
+                    }
+                }
+
+                if (!is_null($line_id)) {
+                    $validation_line_id = Validation::fire($line_id, Validation::$LINE_ID);
+
+                    if (!$validation_line_id) {
+                        $error[] = Error::$VALIDATION_LINE_ID;
+                        $update_flg = false;
+                    }
+                }
+
+                if (!is_null($introduction)) {
+                    $validation_introduction = Validation::fire($introduction, Validation::$INTRODUCTION);
+
+                    if (!$validation_introduction) {
+                        $error[] = Error::$VALIDATION_INTRODUCTION;
+                        $update_flg = false;
+                    }
+                }
+
+                if (!is_null($user_icon)) {
+                    if (GCS::allow_extension($user_icon)) {
+                        $icon_file_name = GCS::upload($user_icon, 'user-icon');
+
+                        if (!$icon_file_name) {
+                            $error[] = Error::$UPLOAD_FAILED;
+                            $update_flg = false;
+                        }
+                    } else {
+                        $error[] = Error::$ALLOW_EXTENSION;
+                        $update_flg = false;
+                    }
+                }
+
+                if ($update_flg) {
+                    if (!is_null($user_name)) AccountManager::updateUserName($user_id, $user_name);
+                    if (!is_null($line_id)) AccountManager::updateLineId($user_id, $line_id);
+                    if (!is_null($introduction)) AccountManager::updateIntroduction($user_id, $introduction);
+                    if (!is_null($user_icon) && $icon_file_name) AccountManager::updateUserIcon($user_id, $icon_file_name);
+
+                    $user_info = AccountManager::user_info($user_id);
+
+                    $result = [
+                        'status' => 200,
+                        'message' => null,
+                        'data' => [
+                            'user_info' => $user_info
+                        ]
+                    ];
+                } else {
+                    $result = [
+                        'status' => 400,
+                        'message' => $error,
+                        'data' => null
+                    ];
                 }
             }
         }
