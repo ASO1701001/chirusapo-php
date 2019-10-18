@@ -15,7 +15,7 @@ class GroupManager {
         $sql = "SELECT gm.group_id, gm.group_name
                 FROM group_user gu
                 LEFT JOIN group_master gm
-                ON gm.group_id = gu.group_id
+                ON gm.id = gu.group_id
                 WHERE gm.delete_flg = false
                 AND gu.user_id = :user_id";
         $belong_group = $db->fetchAll($sql, [
