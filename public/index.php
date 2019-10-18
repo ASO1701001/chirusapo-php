@@ -71,21 +71,21 @@ $app->get('/start/master-download', MasterController::class.':master_download');
 $app->post('/account/signup', AccountController::class.':sign_up');
 $app->post('/account/signin', AccountController::class.':sign_in');
 $app->post('/account/password-reset', AccountController::class.':password_reset');
+$app->post('/account/edit', AccountController::class.':account_edit');
 
 $app->post('/token/verify-token', TokenController::class.':verify_token');
 
 $app->post('/group/join', GroupController::class.':group_join');
 $app->post('/group/create', GroupController::class.':group_create');
+$app->post('/group/belong-group', GroupController::class.':belong_group');
 $app->post('/group/belong-member', GroupController::class.':belong_member');
+$app->post('/group/withdrawal', GroupController::class.':group_withdrawal');
 
 /*
  * 自分が所属しているグループ
- * グループないのユーザー
- * グループ退会
  * グループ退会（強制）
  * グループ削除
  */
-
 
 /*
 $app->post('/account/signout', AccountController::class.':signout');
@@ -93,8 +93,6 @@ $app->post('/account/resign', AccountController::class.':resign');
 $app->post('/account/edit', AccountController::class.':edit');
 $app->post('/account/password-change', AccountController::class.':password_change');
 */
-
-// $app->post('/token/verify-token',);
 
 try {
     $app->run();
