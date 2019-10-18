@@ -2,6 +2,7 @@
 namespace Application\lib;
 
 class Validation {
+    // Account
     public static $USER_ID = 'user_id';
     public static $USER_NAME = 'user_name';
     public static $EMAIL = 'email';
@@ -9,6 +10,9 @@ class Validation {
     public static $BIRTHDAY = 'birthday';
     public static $GENDER = 'gender';
     public static $USER_ID_OR_EMAIL = 'user_id_or_email';
+    public static $LINE_ID = 'line_id';
+    public static $INTRODUCTION = 'introduction';
+    // Group
     public static $GROUP_ID = 'group_id';
     public static $GROUP_NAME = 'group_name';
     public static $PIN_CODE = 'pin_code';
@@ -40,6 +44,12 @@ class Validation {
                 break;
             case self::$USER_ID_OR_EMAIL:
                 $regex = '/^[a-zA-Z0-9-_.@+]{4,}$/';
+                break;
+            case self::$LINE_ID:
+                $regex = '/^[a-zA-Z0-9-_.]{4,20}$/';
+                break;
+            case self::$INTRODUCTION:
+                $regex = '/^.{0,250}$/';
                 break;
             case self::$GROUP_ID:
                 $regex = '/^[a-zA-Z0-9-_]{5,30}$/';
