@@ -150,6 +150,46 @@ class GroupController {
 
         return $response->withJson($result);
     }
+
+    public static function belong_group(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+
+        if (is_null($token)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+
+            if (!$user_id) {
+                $result = [
+                    'status' => 400,
+                    'message' => [
+                        Error::$UNKNOWN_TOKEN
+                    ],
+                    'data' => null
+                ];
+            } else {
+                $belong_group = GroupManager::belong_my_group($user_id);
+
+                $result = [
+                    'status' => 200,
+                    'message' => null,
+                    'data' => [
+                        'belong_group' => $belong_group
+                    ]
+                ];
+            }
+        }
+
+        return $response->withJson($result);
+    }
     
     public static function belong_member(Request $request, Response $response) {
         $param = array_escape($request->getParsedBody());
@@ -203,6 +243,76 @@ class GroupController {
                             'message' => null,
                             'data' => [
                                 'belong_member' => $belong_member
+                            ]
+                        ];
+                    } else {
+                        $result = [
+                            'status' => 400,
+                            'message' => [
+                                Error::$UNREADY_BELONG_GROUP
+                            ],
+                            'data' => null
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
+    public static function group_withdrawal(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $group_id = isset($param['group_id']) ? $param['group_id'] : null;
+
+        $error = [];
+
+        if (is_null($token) || is_null($group_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+            $inner_group_id = GroupManager::get_group_id($group_id);
+
+            if (!$user_id || !$inner_group_id) {
+                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$inner_group_id) $error[] = Error::$UNKNOWN_GROUP;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                $validation_group_id = Validation::fire($group_id, Validation::$GROUP_ID);
+
+                if (!$validation_group_id) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$VALIDATION_GROUP_ID
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    $already_belong_group = GroupManager::already_belong_group($inner_group_id, $user_id);
+
+                    if ($already_belong_group) {
+                        GroupManager::withdrawal_group($inner_group_id, $user_id);
+                        $belong_group = GroupManager::belong_my_group($user_id);
+
+                        $result = [
+                            'status' => 200,
+                            'message' => null,
+                            'data' => [
+                                'belong_group' => $belong_group
                             ]
                         ];
                     } else {
