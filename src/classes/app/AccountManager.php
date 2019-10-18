@@ -162,7 +162,7 @@ EOF;
      */
     public static function user_info($user_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT user_id, user_name, email, icon_file_name FROM account_user WHERE id = :user_id";
+        $sql = "SELECT user_id, user_name, email, introduction, icon_file_name, line_id FROM account_user WHERE id = :user_id";
         $data = $db->fetch($sql, [
             'user_id' => $user_id
         ]);
@@ -170,7 +170,69 @@ EOF;
             'user_id' => $data['user_id'],
             'user_name' => $data['user_name'],
             'email' => $data['email'],
-            'user_icon' => !empty($data['icon_file_name']) ? 'https://storage.googleapis.com/chirusapo/user-icon/'.$data['icon_file_name'] : null
+            'introduction' => !empty($data['introduction']) ? $data['introduction'] : null,
+            'user_icon' => !empty($data['icon_file_name']) ? 'https://storage.googleapis.com/chirusapo/user-icon/'.$data['icon_file_name'] : null,
+            'line_id' => !empty($data['line_id']) ? $data['line_id'] : null
         ];
+    }
+
+    public static function updateUserName($user_id, $user_name) {
+        $db = new DatabaseManager();
+        $sql = "UPDATE account_user SET user_name = :user_name WHERE id = :user_id";
+        $db->execute($sql, [
+            'user_name' => $user_name,
+            'user_id' => $user_id
+        ]);
+    }
+
+    public static function updateLineId($user_id, $line_id) {
+        if (empty($line_id)) {
+            self::deleteLineId($user_id);
+            return;
+        }
+        $db = new DatabaseManager();
+        $sql = "UPDATE account_user SET line_id = :line_id WHERE id = :user_id";
+        $db->execute($sql, [
+            'line_id' => $line_id,
+            'user_id' => $user_id
+        ]);
+    }
+
+    public static function deleteLineId($user_id) {
+        $db = new DatabaseManager();
+        $sql = "UPDATE account_user SET line_id = null WHERE id = :user_id";
+        $db->execute($sql, [
+            'user_id' => $user_id
+        ]);
+    }
+
+    public static function updateIntroduction($user_id, $introduction) {
+        if (empty($introduction)) {
+            self::deleteIntroduction($user_id);
+            return;
+        }
+        $db = new DatabaseManager();
+        $sql = "UPDATE account_user SET introduction = :introduction WHERE id = :user_id";
+        $db->execute($sql, [
+            'introduction' => $introduction,
+            'user_id' => $user_id
+        ]);
+    }
+
+    public static function deleteIntroduction($user_id) {
+        $db = new DatabaseManager();
+        $sql = "UPDATE account_user SET introduction = null WHERE id = :user_id";
+        $db->execute($sql, [
+            'user_id' => $user_id
+        ]);
+    }
+
+    public static function updateUserIcon($user_id, $user_icon) {
+        $db = new DatabaseManager();
+        $sql = "UPDATE account_user SET icon_file_name = :user_icon WHERE id = :user_id";
+        $db->execute($sql, [
+            'user_icon' => $user_icon,
+            'user_id' => $user_id
+        ]);
     }
 }
