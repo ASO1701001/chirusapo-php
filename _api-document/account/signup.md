@@ -23,7 +23,9 @@
             "user_id": "*user_id*",
             "user_name": "*user_name*",
             "email": "*email*",
-            "user_icon": "*user_icon*"
+            "user_icon": "*user_icon*",
+            "introduction": "*introduction*",
+            "line_id": "*line_id*"
         }
     }
 }
