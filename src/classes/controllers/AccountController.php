@@ -31,7 +31,7 @@ class AccountController {
 
         $error = [];
 
-        if (is_null($user_id) || is_null($user_name) || is_null($email) || is_null($password) || is_null($gender) || is_null($birthday)) {
+        if (is_null($user_id) || is_null($user_name) || is_null($email) || is_null($password) || is_null($gender)) {
             $result = [
                 'status' => 400,
                 'message' => [
@@ -45,7 +45,7 @@ class AccountController {
             $valid_email = Validation::fire($email, Validation::$EMAIL);
             $valid_password = Validation::fire($password, Validation::$PASSWORD);
             $valid_gender = Validation::fire($gender, Validation::$GENDER);
-            $valid_birthday = Validation::fire($birthday, Validation::$BIRTHDAY);
+            $valid_birthday = is_null($birthday) ? true : Validation::fire($birthday, Validation::$BIRTHDAY);
 
             if (
                 !$valid_user_id ||

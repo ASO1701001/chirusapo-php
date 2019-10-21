@@ -20,15 +20,26 @@ class AccountManager {
      */
     public static function sign_up($user_id, $user_name, $email, $password, $gender, $birthday) {
         $db = new DatabaseManager();
-        $sql = "INSERT INTO account_user (user_id, user_name, email, password, gender, birthday) VALUES (:user_id, :user_name, :email, :password, :gender, :birthday)";
-        $id = $db->insert($sql, [
-            'user_id' => $user_id,
-            'user_name' => $user_name,
-            'email' => $email,
-            'password' => password_hash($password, PASSWORD_DEFAULT),
-            'gender' => $gender,
-            'birthday' => $birthday
-        ]);
+        if (is_null($birthday)) {
+            $sql = "INSERT INTO account_user (user_id, user_name, email, password, gender) VALUES (:user_id, :user_name, :email, :password, :gender)";
+            $id = $db->insert($sql, [
+                'user_id' => $user_id,
+                'user_name' => $user_name,
+                'email' => $email,
+                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'gender' => $gender
+            ]);
+        } else {
+            $sql = "INSERT INTO account_user (user_id, user_name, email, password, gender, birthday) VALUES (:user_id, :user_name, :email, :password, :gender, :birthday)";
+            $id = $db->insert($sql, [
+                'user_id' => $user_id,
+                'user_name' => $user_name,
+                'email' => $email,
+                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'gender' => $gender,
+                'birthday' => $birthday
+            ]);
+        }
         return $id;
     }
 
