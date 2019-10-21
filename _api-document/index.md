@@ -12,6 +12,9 @@
 ### [パスワードリセット](/_api-document/account/password-reset.md)
 /account/password-reset
 
+### [アカウント情報変更](/_api-document/account/edit.md)
+/account/edit
+
 ### [ログイントークン検証](/_api-document/token/verify-token.md)
 /token/verify-token
 

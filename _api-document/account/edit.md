@@ -1,7 +1,6 @@
-# ログイン
-> [POST] /account/signin
+# アカウント情報変更
+> [POST] /account/edit
 ## パラメーター
-> このAPIは、user_idとしてメールアドレスを受け取ることが可能です
 
 | Param | Require |
 |:-:|:-:|
