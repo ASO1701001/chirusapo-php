@@ -1,5 +1,4 @@
 <?php
-
 use Classes\Controllers\IndexController;
 use Classes\Controllers\AccountController;
 use Classes\controllers\MasterController;
