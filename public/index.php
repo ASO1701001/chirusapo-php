@@ -72,6 +72,10 @@ $app->post('/account/signin', AccountController::class.':sign_in');
 $app->post('/account/password-reset', AccountController::class.':password_reset');
 $app->post('/account/edit', AccountController::class.':account_edit');
 
+// TODO：ログアウト
+// TODO：退会
+// TODO：パスワード変更
+
 $app->post('/token/verify-token', TokenController::class.':verify_token');
 
 $app->post('/group/join', GroupController::class.':group_join');
@@ -80,18 +84,25 @@ $app->post('/group/belong-group', GroupController::class.':belong_group');
 $app->post('/group/belong-member', GroupController::class.':belong_member');
 $app->post('/group/withdrawal', GroupController::class.':group_withdrawal');
 
-/*
- * 自分が所属しているグループ
- * グループ退会（強制）
- * グループ削除
- */
+// TODO：グループ退会（強制）
+// TODO：グループ削除
 
-/*
-$app->post('/account/signout', AccountController::class.':signout');
-$app->post('/account/resign', AccountController::class.':resign');
-$app->post('/account/edit', AccountController::class.':edit');
-$app->post('/account/password-change', AccountController::class.':password_change');
-*/
+// TODO：タイムライン投稿
+// TODO：タイムライン取得
+// TODO：タイムライン削除
+// TODO：タイムラインコメント投稿
+// TODO：タイムラインコメント表示
+// TODO：タイムラインコメント削除
+
+// TODO：子ども情報登録
+// TODO：子ども情報表示
+// TODO：子ども情報削除
+// TODO：子ども成長記録登録
+// TODO：子ども成長日記投稿
+// TODO：子ども成長日記表示
+// TODO：子ども成長日記削除
+// TODO：子ども友だち追加
+// TODO：子ども友だち表示
 
 try {
     $app->run();
