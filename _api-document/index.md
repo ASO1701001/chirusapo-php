@@ -26,3 +26,9 @@
 
 ### [所属メンバー取得](/_api-document/group/belong-member.md)
 /group/belong-member
+
+### [タイムライン取得](/_api-document/timeline/get.md)
+/timeline/get
+
+### [タイムライン投稿](/_api-document/timeline/post.md)
+/timeline/post
