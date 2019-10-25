@@ -6,7 +6,7 @@
 |:--------:|:-------:|
 |   token  |   Yes   |
 | group_id |   Yes   |
-|  content |    No   |
+|  text |    No   |
 |  image01 |    No   |
 |  image02 |    No   |
 |  image03 |    No   |
