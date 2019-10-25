@@ -141,6 +141,9 @@ class GroupManager {
      * @return int
      */
     public static function get_group_id($group_id) {
+        if (!self::already_group_id($group_id)) {
+            return false;
+        }
         $db = new DatabaseManager();
         $sql = "SELECT id FROM group_master WHERE group_id = :group_id";
         $id = $db->fetchColumn($sql, [
