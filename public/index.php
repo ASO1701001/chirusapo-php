@@ -1,9 +1,10 @@
 <?php
-use Classes\Controllers\IndexController;
-use Classes\Controllers\AccountController;
-use Classes\controllers\MasterController;
-use Classes\controllers\TokenController;
-use Classes\controllers\GroupController;
+use Application\Controllers\IndexController;
+use Application\Controllers\AccountController;
+use Application\controllers\MasterController;
+use Application\controllers\TimelineController;
+use Application\controllers\TokenController;
+use Application\controllers\GroupController;
 use Slim\App;
 use Slim\Container;
 use Slim\Http\Response;
@@ -14,13 +15,7 @@ require_once __DIR__.'/../src/classes/controllers/MasterController.php';
 require_once __DIR__.'/../src/classes/controllers/AccountController.php';
 require_once __DIR__.'/../src/classes/controllers/TokenController.php';
 require_once __DIR__.'/../src/classes/controllers/GroupController.php';
-
-/*
- * GET
- * $getParams = $request->getQueryParams();
- * POST
- * $postParams = $request->getParsedBody();
-*/
+require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
 
 $configuration = [
     'settings' => [
@@ -78,8 +73,8 @@ $app->post('/account/edit', AccountController::class.':account_edit');
 
 $app->post('/token/verify-token', TokenController::class.':verify_token');
 
-$app->post('/group/join', GroupController::class.':group_join');
 $app->post('/group/create', GroupController::class.':group_create');
+$app->post('/group/join', GroupController::class.':group_join');
 $app->post('/group/belong-group', GroupController::class.':belong_group');
 $app->post('/group/belong-member', GroupController::class.':belong_member');
 $app->post('/group/withdrawal', GroupController::class.':group_withdrawal');
@@ -87,8 +82,9 @@ $app->post('/group/withdrawal', GroupController::class.':group_withdrawal');
 // TODO：グループ退会（強制）
 // TODO：グループ削除
 
-// TODO：タイムライン投稿
-// TODO：タイムライン取得
+$app->get('/timeline/get', TimelineController::class.':get_timeline');
+$app->post('/timeline/post', TimelineController::class.':post_timeline');
+
 // TODO：タイムライン削除
 // TODO：タイムラインコメント投稿
 // TODO：タイムラインコメント表示
