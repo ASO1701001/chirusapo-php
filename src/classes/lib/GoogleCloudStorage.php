@@ -1,5 +1,5 @@
 <?php
-namespace Classes\lib;
+namespace Application\lib;
 
 use Exception;
 use Google\Cloud\Storage\StorageClient;
@@ -12,9 +12,10 @@ class GoogleCloudStorage {
     private const authFile = __DIR__ . '/../../auth/google-cloud-storage-key.json';
     private const bucketName = 'chirusapo';
 
-    public static function upload(UploadedFile $file, string $file_path) {
+    public static function upload(UploadedFile $file, string $file_path, $date = null) {
         try {
             if ($file->getError() == UPLOAD_ERR_OK) {
+                if (is_null($date)) date('Ymd-His');
                 $client = new StorageClient([
                     'projectId' => self::projectId,
                     'keyFile' => json_decode(
@@ -24,7 +25,7 @@ class GoogleCloudStorage {
                 $bucket = $client->bucket(self::bucketName);
 
                 $extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
-                $file_name = date('Ymd-His').'_'.random(10).'.'.$extension;
+                $file_name = $date.'_'.random(10).'.'.$extension;
 
                 $bucket->upload(fopen($file->file, 'r'), [
                     'name' => $file_path.'/'.$file_name
@@ -33,6 +34,28 @@ class GoogleCloudStorage {
             } else {
                 return false;
             }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public static function upload_tmp(string $file_name, string $file_path, $date = null) {
+        try {
+            $client = new StorageClient([
+                'projectId' => self::projectId,
+                'keyFile' => json_decode(
+                    file_get_contents(self::authFile, true), true
+                )
+            ]);
+            $bucket = $client->bucket(self::bucketName);
+
+            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+            $new_file_name = $date.'_'.random(10).'.'.$extension;
+
+            $bucket->upload(fopen(__DIR__.'/../../../tmp/'.$file_name, 'r'), [
+                'name' => $file_path.'/'.$new_file_name
+            ]);
+            return $new_file_name;
         } catch (Exception $e) {
             return false;
         }
