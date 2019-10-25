@@ -16,6 +16,9 @@ class Validation {
     public static $GROUP_ID = 'group_id';
     public static $GROUP_NAME = 'group_name';
     public static $PIN_CODE = 'pin_code';
+    // Timeline
+    public static $TIMELINE_POST_CONTENT = 'timeline_post_content';
+    public static $TIMELINE_POST_COMMENT = 'timeline_post_comment';
     /*
     public static $BODY_HEIGHT = 'body_height';
     public static $BODY_WEIGHT = 'body_weight';
@@ -59,6 +62,10 @@ class Validation {
                 break;
             case self::$PIN_CODE:
                 $regex = '/^[0-9]{4}$/';
+                break;
+            case self::$TIMELINE_POST_CONTENT:
+            case self::$TIMELINE_POST_COMMENT:
+                $regex = '/^.{1,250}$/';
                 break;
             /*
             case self::$BODY_HEIGHT:
