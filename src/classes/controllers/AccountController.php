@@ -1,7 +1,7 @@
 <?php
-namespace Classes\Controllers;
+namespace Application\Controllers;
 
-use Classes\lib\GoogleCloudStorage as GCS;
+use Application\lib\GoogleCloudStorage as GCS;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Application\lib\Validation;
@@ -225,10 +225,10 @@ class AccountController {
 
     public static function account_edit(Request $request, Response $response) {
         $param = array_escape($request->getParsedBody());
-        $upload_file = $request->getUploadedFiles();
+        $file = $request->getUploadedFiles();
 
         $token = isset($param['token']) ? $param['token'] : null;
-        $user_icon = isset($upload_file['user_icon']) ? $upload_file['user_icon'] : null;
+        $user_icon = isset($file['user_icon']) ? $file['user_icon'] : null;
         $user_name = isset($param['user_name']) ? $param['user_name'] : null;
         $line_id = isset($param['line_id']) ? $param['line_id'] : null;
         $introduction = isset($param['introduction']) ? $param['introduction'] : null;

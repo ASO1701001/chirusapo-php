@@ -1,5 +1,5 @@
 <?php
-namespace Classes\Controllers;
+namespace Application\Controllers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;

@@ -1,5 +1,5 @@
 <?php
-namespace Classes\controllers;
+namespace Application\controllers;
 
 use Classes\app\MasterManager;
 use Slim\Http\Request;

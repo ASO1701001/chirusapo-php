@@ -1,5 +1,5 @@
 <?php
-namespace Classes\controllers;
+namespace Application\controllers;
 
 use Application\app\AccountManager;
 use Application\app\GroupManager;
