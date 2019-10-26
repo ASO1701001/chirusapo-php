@@ -12,6 +12,9 @@
 ### [パスワードリセット](/_api-document/account/password-reset.md)
 /account/password-reset
 
+### [パスワード変更](/_api-document/account/password-change.md)
+/account/password-change
+
 ### [アカウント情報変更](/_api-document/account/edit.md)
 /account/edit
 
