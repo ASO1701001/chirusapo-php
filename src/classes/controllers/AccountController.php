@@ -223,6 +223,72 @@ class AccountController {
         return $response->withJson($result);
     }
 
+    public static function password_change(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $old_password = isset($param['old_password']) ? $param['old_password'] : null;
+        $new_password = isset($param['new_password']) ? $param['new_password'] : null;
+
+        $error = [];
+
+        if (is_null($token) || is_null($old_password) || is_null($new_password)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $validation_old_password = Validation::fire($old_password, Validation::$PASSWORD);
+            $validation_new_password = Validation::fire($new_password, Validation::$PASSWORD);
+
+            if (!$validation_old_password || !$validation_new_password) {
+                if (!$validation_old_password) $error[] = Error::$VALIDATION_OLD_PASSWORD;
+                if (!$validation_new_password) $error[] = Error::$VALIDATION_NEW_PASSWORD;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                $user_id = TokenManager::get_user_id($token);
+
+                if (!$user_id) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$UNKNOWN_TOKEN
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    $change_password = AccountManager::password_change($user_id, $new_password, $old_password);
+
+                    if ($change_password) {
+                        $result = [
+                            'status' => 200,
+                            'message' => null,
+                            'data' => null
+                        ];
+                    } else {
+                        $result = [
+                            'status' => 400,
+                            'message' => [
+                                Error::$VERIFY_PASSWORD_FAILED
+                            ],
+                            'data' => null
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
     public static function account_edit(Request $request, Response $response) {
         $param = array_escape($request->getParsedBody());
         $file = $request->getUploadedFiles();
