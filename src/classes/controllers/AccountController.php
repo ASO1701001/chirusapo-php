@@ -392,4 +392,42 @@ class AccountController {
 
         return $response->withJson($result);
     }
+
+    public static function sign_out(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+
+        if (is_null($token)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $already_token = TokenManager::already_token($token);
+
+            if ($already_token) {
+                TokenManager::delete_token($token);
+
+                $result = [
+                    'status' => 200,
+                    'message' => null,
+                    'data' => null
+                ];
+            } else {
+                $result = [
+                    'status' => 400,
+                    'message' => [
+                        Error::$UNKNOWN_TOKEN
+                    ],
+                    'data' => null
+                ];
+            }
+        }
+
+        return $response->withJson($result);
+    }
 }

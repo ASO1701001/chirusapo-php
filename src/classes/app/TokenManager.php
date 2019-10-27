@@ -21,6 +21,10 @@ class TokenManager {
         return $count == 0 ? false : true;
     }
 
+    public static function already_token($token) {
+        return self::count_token($token) == 0 ? false : true;
+    }
+
     /**
      * @param $token
      * @return bool|int
