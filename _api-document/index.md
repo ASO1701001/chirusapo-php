@@ -9,6 +9,9 @@
 ### [ログイン](/_api-document/account/signin.md)
 /account/signin
 
+### [ログアウト](/_api-document/account/signout.md)
+/account/signout
+
 ### [パスワードリセット](/_api-document/account/password-reset.md)
 /account/password-reset
 
