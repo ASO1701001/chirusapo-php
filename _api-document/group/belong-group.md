@@ -1,4 +1,4 @@
-# グループ作成
+# 所属グループ取得
 > [POST] /group/belong-group
 ## パラメーター
 

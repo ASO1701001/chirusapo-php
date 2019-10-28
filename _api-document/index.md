@@ -33,8 +33,14 @@
 ### [グループ参加](/_api-document/group/join.md)
 /group/join
 
+### [所属グループ取得](/_api-document/group/belong-group.md)
+/group/belong-group
+
 ### [所属メンバー取得](/_api-document/group/belong-member.md)
 /group/belong-member
+
+### [グループ退会](/_api-document/group/withdrawal.md)
+/group/withdrawal
 
 ### [タイムライン取得](/_api-document/timeline/get.md)
 /timeline/get
