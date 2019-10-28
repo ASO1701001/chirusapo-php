@@ -12,6 +12,9 @@
 ### [ログアウト](/_api-document/account/signout.md)
 /account/signout
 
+### [退会](/_api-document/account/resign.md)
+/account/resign
+
 ### [パスワードリセット](/_api-document/account/password-reset.md)
 /account/password-reset
 
