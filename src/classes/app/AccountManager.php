@@ -187,7 +187,7 @@ EOF;
         ];
     }
 
-    public static function updateUserName($user_id, $user_name) {
+    public static function update_user_name($user_id, $user_name) {
         $db = new DatabaseManager();
         $sql = "UPDATE account_user SET user_name = :user_name WHERE id = :user_id";
         $db->execute($sql, [
@@ -196,9 +196,9 @@ EOF;
         ]);
     }
 
-    public static function updateLineId($user_id, $line_id) {
+    public static function update_line_id($user_id, $line_id) {
         if (empty($line_id)) {
-            self::deleteLineId($user_id);
+            self::delete_line_id($user_id);
             return;
         }
         $db = new DatabaseManager();
@@ -209,7 +209,7 @@ EOF;
         ]);
     }
 
-    public static function deleteLineId($user_id) {
+    public static function delete_line_id($user_id) {
         $db = new DatabaseManager();
         $sql = "UPDATE account_user SET line_id = null WHERE id = :user_id";
         $db->execute($sql, [
@@ -217,9 +217,9 @@ EOF;
         ]);
     }
 
-    public static function updateIntroduction($user_id, $introduction) {
+    public static function update_introduction($user_id, $introduction) {
         if (empty($introduction)) {
-            self::deleteIntroduction($user_id);
+            self::delete_introduction($user_id);
             return;
         }
         $db = new DatabaseManager();
@@ -230,7 +230,7 @@ EOF;
         ]);
     }
 
-    public static function deleteIntroduction($user_id) {
+    public static function delete_introduction($user_id) {
         $db = new DatabaseManager();
         $sql = "UPDATE account_user SET introduction = null WHERE id = :user_id";
         $db->execute($sql, [
@@ -238,7 +238,7 @@ EOF;
         ]);
     }
 
-    public static function updateUserIcon($user_id, $user_icon) {
+    public static function update_user_icon($user_id, $user_icon) {
         $db = new DatabaseManager();
         $sql = "UPDATE account_user SET icon_file_name = :user_icon WHERE id = :user_id";
         $db->execute($sql, [

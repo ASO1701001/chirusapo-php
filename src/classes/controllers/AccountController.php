@@ -366,10 +366,10 @@ class AccountController {
                 }
 
                 if ($update_flg) {
-                    if (!is_null($user_name)) AccountManager::updateUserName($user_id, $user_name);
-                    if (!is_null($line_id)) AccountManager::updateLineId($user_id, $line_id);
-                    if (!is_null($introduction)) AccountManager::updateIntroduction($user_id, $introduction);
-                    if (!is_null($user_icon) && $icon_file_name) AccountManager::updateUserIcon($user_id, $icon_file_name);
+                    if (!is_null($user_name)) AccountManager::update_user_name($user_id, $user_name);
+                    if (!is_null($line_id)) AccountManager::update_line_id($user_id, $line_id);
+                    if (!is_null($introduction)) AccountManager::update_introduction($user_id, $introduction);
+                    if (!is_null($user_icon) && $icon_file_name) AccountManager::update_user_icon($user_id, $icon_file_name);
 
                     $user_info = AccountManager::user_info($user_id);
 
@@ -411,6 +411,44 @@ class AccountController {
 
             if ($already_token) {
                 TokenManager::delete_token($token);
+
+                $result = [
+                    'status' => 200,
+                    'message' => null,
+                    'data' => null
+                ];
+            } else {
+                $result = [
+                    'status' => 400,
+                    'message' => [
+                        Error::$UNKNOWN_TOKEN
+                    ],
+                    'data' => null
+                ];
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
+    public static function resign(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+
+        if (is_null($token)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+
+            if ($user_id) {
+                AccountManager::resign($user_id);
 
                 $result = [
                     'status' => 200,

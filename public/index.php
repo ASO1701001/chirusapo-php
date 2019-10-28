@@ -65,10 +65,10 @@ $app->get('/start/master-download', MasterController::class.':master_download');
 $app->post('/account/signup', AccountController::class.':sign_up');
 $app->post('/account/signin', AccountController::class.':sign_in');
 $app->post('/account/signout', AccountController::class.':sign_out');
+$app->post('/account/resign', AccountController::class.':resign');
 $app->post('/account/password-reset', AccountController::class.':password_reset');
 $app->post('/account/password-change', AccountController::class.':password_change');
 $app->post('/account/edit', AccountController::class.':account_edit');
-// TODO：退会
 
 $app->post('/token/verify-token', TokenController::class.':verify_token');
 
