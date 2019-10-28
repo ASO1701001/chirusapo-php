@@ -98,6 +98,20 @@ $app->post('/timeline/post', TimelineController::class.':post_timeline');
 // TODO：子ども成長日記削除
 // TODO：子ども友だち追加
 // TODO：子ども友だち表示
+// TODO：子ども友だち編集
+// TODO：子ども友だち削除
+// TODO：子ども友だち関連付け
+
+// TODO：顔情報登録
+
+// TODO：アルバムアップロード
+// TODO：アルバム表示
+
+// TODO：アカウントLINEログイン
+
+// TODO：カレンダー表示
+// TODO：カレンダー追加
+// TODO：カレンダー削除
 
 try {
     $app->run();
