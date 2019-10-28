@@ -50,7 +50,7 @@ class AccountManager {
      */
     public static function sign_in($user_id, $password) {
         $db = new DatabaseManager();
-        $sql = "SELECT id, password FROM account_user WHERE user_id = :user_id OR email = :email";
+        $sql = "SELECT id, password FROM account_user WHERE resign_flg = false AND user_id = :user_id OR email = :email";
         $data = $db->fetch($sql, [
             'user_id' => $user_id,
             'email' => $user_id
