@@ -15,7 +15,7 @@ class GoogleCloudStorage {
     public static function upload(UploadedFile $file, string $file_path, $date = null) {
         try {
             if ($file->getError() == UPLOAD_ERR_OK) {
-                if (is_null($date)) date('Ymd-His');
+                if (is_null($date)) $date = date('Ymd-His');
                 $client = new StorageClient([
                     'projectId' => self::projectId,
                     'keyFile' => json_decode(
@@ -41,6 +41,7 @@ class GoogleCloudStorage {
 
     public static function upload_tmp(string $file_name, string $file_path, $date = null) {
         try {
+            if (is_null($date)) $date = date('Ymd-His');
             $client = new StorageClient([
                 'projectId' => self::projectId,
                 'keyFile' => json_decode(
