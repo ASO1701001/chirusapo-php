@@ -239,7 +239,7 @@ class TimelineManager {
 
     public static function get_timeline_group_id($timeline_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT group_id FROM group_timeline WHERE id = :timeline_id";
+        $sql = "SELECT group_id FROM group_timeline WHERE id = :timeline_id AND delete_flg = false";
         $group_id = $db->fetchColumn($sql, [
             'timeline_id' => $timeline_id
         ]);
