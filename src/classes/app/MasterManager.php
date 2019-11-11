@@ -8,7 +8,7 @@ require_once __DIR__.'/../lib/DatabaseManager.php';
 class MasterManager {
     public static function get_vaccination() {
         $db = new DatabaseManager();
-        $sql = "SELECT vaccination_name FROM master_vaccination ORDER BY id ASC";
+        $sql = "SELECT vaccination_name FROM master_vaccination ORDER BY id";
         $data = $db->fetchAll($sql, []);
         $array = [];
         foreach ($data as $row) {
@@ -19,7 +19,7 @@ class MasterManager {
 
     public static function get_allergy() {
         $db = new DatabaseManager();
-        $sql = "SELECT allergy_name FROM master_allergy ORDER BY id ASC";
+        $sql = "SELECT allergy_name FROM master_allergy ORDER BY id";
         $data = $db->fetchAll($sql, []);
         $array = [];
         foreach ($data as $row) {
