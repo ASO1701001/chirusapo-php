@@ -351,11 +351,13 @@ class TimelineController {
             ];
         } else {
             $user_id = TokenManager::get_user_id($token);
-            $group_id = TimelineManager::get_timeline_group_id($timeline_id);
+//            $group_id = TimelineManager::get_timeline_group_id($timeline_id);
 
-            if (!$user_id || !$group_id) {
+            if (!$user_id
+                // || !$group_id
+            ) {
                 if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
-                if (!$group_id) $error[] = Error::$UNKNOWN_POST;
+                // if (!$group_id) $error[] = Error::$UNKNOWN_POST;
 
                 $result = [
                     'status' => 400,
@@ -363,8 +365,9 @@ class TimelineController {
                     'data' => null
                 ];
             } else {
-                $belong_group = GroupManager::already_belong_group($group_id, $user_id);
+                // $belong_group = GroupManager::already_belong_group($group_id, $user_id);
 
+                /*
                 if (!$belong_group) {
                     $result = [
                         'status' => 400,
@@ -374,6 +377,7 @@ class TimelineController {
                         'data' => null
                     ];
                 } else {
+                */
                     $have_timeline = TimelineManager::have_user_id_timeline($timeline_id, $user_id);
 
                     if (!$have_timeline) {
@@ -393,7 +397,7 @@ class TimelineController {
                             'data' => null
                         ];
                     }
-                }
+                // }
             }
         }
 

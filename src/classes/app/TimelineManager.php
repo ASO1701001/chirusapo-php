@@ -162,11 +162,12 @@ class TimelineManager {
 
     public static function post_comment($timeline_id, $user_id, $comment) {
         $db = new DatabaseManager();
-        $sql = "INSERT INTO group_timeline_comment (timeline_id, user_id, comment) VALUES (:timeline_id, :user_id, :comment)";
+        $sql = "INSERT INTO group_timeline_comment (timeline_id, user_id, comment, post_time) VALUES (:timeline_id, :user_id, :comment, :post_time)";
         $comment_id = $db->insert($sql, [
             'timeline_id' => $timeline_id,
             'user_id' => $user_id,
-            'comment' => $comment
+            'comment' => $comment,
+            'post_time' => date('Y-m-d H:i:s')
         ]);
         return $comment_id;
     }
@@ -229,5 +230,14 @@ class TimelineManager {
             'timeline_id' => $timeline_id
         ]);
         return !empty($group_id) ? $group_id : false;
+    }
+
+    public static function get_comment_timeline_id($comment_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT timeline_id FROM group_timeline_comment WHERE id = :comment_id";
+        $timeline_id = $db->fetchColumn($sql, [
+            'comment_id' => $comment_id
+        ]);
+        return !empty($timeline_id) ? $timeline_id : false;
     }
 }
