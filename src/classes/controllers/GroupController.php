@@ -152,7 +152,7 @@ class GroupController {
     }
 
     public static function belong_group(Request $request, Response $response) {
-        $param = array_escape($request->getParsedBody());
+        $param = array_escape($request->getQueryParams());
 
         $token = isset($param['token']) ? $param['token'] : null;
 
@@ -192,7 +192,7 @@ class GroupController {
     }
     
     public static function belong_member(Request $request, Response $response) {
-        $param = array_escape($request->getParsedBody());
+        $param = array_escape($request->getQueryParams());
 
         $token = isset($param['token']) ? $param['token'] : null;
         $group_id = isset($param['group_id']) ? $param['group_id'] : null;

@@ -106,7 +106,6 @@ class TimelineController {
         $error = [];
 
         $date = new DateTime();
-            // date('Ymd-His');
 
         $db_date = $date->format('Y-m-d H:i:s');
         $file_date = $date->format('Ymd-His');
@@ -150,32 +149,24 @@ class TimelineController {
             $post_flg = true;
 
             if (!is_null($image01)) {
-//                $allow_extension_image01 = GCS::allow_extension($image01);
-
                 if (!GCS::allow_extension($image01)) {
                     $error[] = Error::$ALLOW_EXTENSION;
                     $post_flg = false;
                 }
 
                 if (!is_null($image02)) {
-//                    $allow_extension_image02 = GCS::allow_extension($image02);
-
                     if (!GCS::allow_extension($image02)) {
                         $error[] = Error::$ALLOW_EXTENSION;
                         $post_flg = false;
                     }
 
                     if (!is_null($image03)) {
-//                        $allow_extension_image03 = GCS::allow_extension($image03);
-
                         if (!GCS::allow_extension($image03)) {
                             $error[] = Error::$ALLOW_EXTENSION;
                             $post_flg = false;
                         }
 
                         if (!is_null($image04)) {
-//                            $allow_extension_image04 = GCS::allow_extension($image04);
-
                             if (!GCS::allow_extension($image04)) {
                                 $error[] = Error::$ALLOW_EXTENSION;
                                 $post_flg = false;
@@ -186,8 +177,6 @@ class TimelineController {
             }
 
             if (!is_null($movie01)) {
-//                $allow_extension_movie01 = GCS::allow_extension($movie01);
-
                 if (GCS::allow_extension($movie01)) {
                     $movie01_thumbnail = FFMpegManager::generate_thumbnail($movie01);
 
@@ -224,7 +213,6 @@ class TimelineController {
                         'data' => null
                     ];
                 } else {
-                    // TODO:グループに所属しているか
                     $belong_group = GroupManager::already_belong_group($inner_group_id, $user_id);
 
                     if (!$belong_group) {
@@ -392,7 +380,7 @@ class TimelineController {
                         $result = [
                             'status' => 400,
                             'message' => [
-                                Error::$UNKNOWN_POST
+                                Error::$UNAUTHORIZED_OPERATION
                             ],
                             'data' => null
                         ];
@@ -411,75 +399,4 @@ class TimelineController {
 
         return $response->withJson($result);
     }
-
-    public static function get_post(Request $request, Response $response) {
-        $param = array_escape($request->getQueryParams());
-
-        $token = isset($param['token']) ? $param['token'] : null;
-        $timeline_id = isset($param['timeline_id']) ? $param['timeline_id'] : null;
-
-        $error = [];
-
-        if (is_null($token) || is_null($timeline_id)) {
-            $result = [
-                'status' => 400,
-                'message' => [
-                    Error::$REQUIRED_PARAM
-                ],
-                'data' => null
-            ];
-        } else {
-            $user_id = TokenManager::get_user_id($token);
-            $group_id = TimelineManager::get_timeline_group_id($timeline_id);
-
-            if (!$user_id || !$group_id) {
-                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
-                if (!$group_id) $error[] = Error::$UNKNOWN_POST;
-
-                $result = [
-                    'status' => 400,
-                    'message' => $error,
-                    'data' => null
-                ];
-            } else {
-                $belong_group = GroupManager::already_belong_group($group_id, $user_id);
-
-                if (!$belong_group) {
-                    $result = [
-                        'status' => 400,
-                        'message' => [
-                            Error::$UNREADY_BELONG_GROUP
-                        ],
-                        'data' => null
-                    ];
-                } else {
-                    $timeline_data = TimelineManager::get_post($timeline_id);
-                    $comment_data = TimelineManager::get_comment($timeline_id);
-
-                    $result = [
-                        'status' => 200,
-                        'message' => null,
-                        'data' => [
-                            'timeline' => $timeline_data,
-                            'comment' => $comment_data
-                        ]
-                    ];
-                }
-            }
-        }
-
-        return $response->withJson($result);
-    }
-
-//    public static function get_timeline_comment() {
-//
-//    }
-//
-//    public static function post_timeline_comment() {
-//
-//    }
-//
-//    public static function delete_timeline_comment() {
-//
-//    }
 }
