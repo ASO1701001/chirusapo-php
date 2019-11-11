@@ -345,19 +345,141 @@ class TimelineController {
         return $response->withJson($result);
     }
 
-    public static function delete_timeline() {
+    public static function delete_timeline(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
 
+        $token = isset($param['token']) ? $param['token'] : null;
+        $timeline_id = isset($param['timeline_id']) ? $param['timeline_id'] : null;
+
+        $error = [];
+
+        if (is_null($token) || is_null($timeline_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+            $group_id = TimelineManager::get_timeline_group_id($timeline_id);
+
+            if (!$user_id || !$group_id) {
+                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$group_id) $error[] = Error::$UNKNOWN_POST;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                $belong_group = GroupManager::already_belong_group($group_id, $user_id);
+
+                if (!$belong_group) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$UNREADY_BELONG_GROUP
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    $have_timeline = TimelineManager::have_user_id_timeline($timeline_id, $user_id);
+
+                    if (!$have_timeline) {
+                        $result = [
+                            'status' => 400,
+                            'message' => [
+                                Error::$UNKNOWN_POST
+                            ],
+                            'data' => null
+                        ];
+                    } else {
+                        TimelineManager::delete_timeline($timeline_id);
+
+                        $result = [
+                            'status' => 200,
+                            'message' => null,
+                            'data' => null
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $response->withJson($result);
     }
 
-    public static function get_timeline_comment() {
+    public static function get_post(Request $request, Response $response) {
+        $param = array_escape($request->getQueryParams());
 
+        $token = isset($param['token']) ? $param['token'] : null;
+        $timeline_id = isset($param['timeline_id']) ? $param['timeline_id'] : null;
+
+        $error = [];
+
+        if (is_null($token) || is_null($timeline_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+            $group_id = TimelineManager::get_timeline_group_id($timeline_id);
+
+            if (!$user_id || !$group_id) {
+                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$group_id) $error[] = Error::$UNKNOWN_POST;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                $belong_group = GroupManager::already_belong_group($group_id, $user_id);
+
+                if (!$belong_group) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$UNREADY_BELONG_GROUP
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    $timeline_data = TimelineManager::get_post($timeline_id);
+                    $comment_data = TimelineManager::get_comment($timeline_id);
+
+                    $result = [
+                        'status' => 200,
+                        'message' => null,
+                        'data' => [
+                            'timeline' => $timeline_data,
+                            'comment' => $comment_data
+                        ]
+                    ];
+                }
+            }
+        }
+
+        return $response->withJson($result);
     }
 
-    public static function post_timeline_comment() {
-
-    }
-
-    public static function delete_timeline_comment() {
-
-    }
+//    public static function get_timeline_comment() {
+//
+//    }
+//
+//    public static function post_timeline_comment() {
+//
+//    }
+//
+//    public static function delete_timeline_comment() {
+//
+//    }
 }

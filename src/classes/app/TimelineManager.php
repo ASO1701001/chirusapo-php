@@ -38,6 +38,14 @@ class TimelineManager {
         return self::switch_content_type($data);
     }
 
+    public static function delete_timeline($timeline_id) {
+        $db = new DatabaseManager();
+        $sql = "UPDATE group_timeline SET delete_flg = true WHERE id = :timeline_id";
+        $db->execute($sql, [
+            'timeline_id' => $timeline_id
+        ]);
+    }
+
     /*
     public static function get_comment($timeline_id) {
         $db = new DatabaseManager();
@@ -165,5 +173,76 @@ class TimelineManager {
                 break;
         }
         return $result;
+    }
+
+    public static function post_comment($timeline_id, $user_id, $comment) {
+        $db = new DatabaseManager();
+        $sql = "INSERT INTO group_timeline_comment (timeline_id, user_id, comment) VALUES (:timeline_id, :user_id, :comment)";
+        $comment_id = $db->insert($sql, [
+            'timeline_id' => $timeline_id,
+            'user_id' => $user_id,
+            'comment' => $comment
+        ]);
+        return $comment_id;
+    }
+
+    public static function delete_comment($comment_id) {
+        $db = new DatabaseManager();
+        $sql = "DELETE FROM group_timeline_comment WHERE id = :comment_id";
+        $db->execute($sql, [
+            'comment_id' => $comment_id
+        ]);
+    }
+
+    public static function have_user_id_comment($comment_id, $user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT count(*) FROM group_timeline_comment WHERE id = :comment_id AND user_id = :user_id";
+        $count = $db->fetchColumn($sql, [
+            'comment_id' => $comment_id,
+            'user_id' => $user_id
+        ]);
+        return $count == 0 ? false : true;
+    }
+
+    public static function have_user_id_timeline($timeline_id, $user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT count(*) FROM group_timeline WHERE id = :timeline_id AND user_id = :user_id";
+        $count = $db->fetchColumn($sql, [
+            'timeline_id' => $timeline_id,
+            'user_id' => $user_id
+        ]);
+        return $count == 0 ? false : true;
+    }
+
+    public static function get_comment($timeline_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT gtc.id, ac.user_id, ac.user_name, ac.icon_file_name, gtc.comment, gtc.post_time
+                FROM group_timeline_comment gtc
+                INNER JOIN account_user ac ON ac.id = gtc.user_id
+                WHERE gtc.timeline_id = :timeline_id";
+        $data = $db->fetchAll($sql, [
+            'timeline_id' => $timeline_id
+        ]);
+        $result = [];
+        foreach ($data as $comment) {
+            $result[] = [
+                'id' => $comment['id'],
+                'user_id' => $comment['user_id'],
+                'user_name' => $comment['user_name'],
+                'user_icon' => !empty($comment['icon_file_name']) ? 'https://storage.googleapis.com/chirusapo/user-icon/'.$data['icon_file_name'] : null,
+                'comment' => $comment['comment'],
+                'post_time' => $comment['post_time']
+            ];
+        }
+        return $result;
+    }
+
+    public static function get_timeline_group_id($timeline_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT group_id FROM group_timeline WHERE id = :timeline_id";
+        $group_id = $db->fetchColumn($sql, [
+            'timeline_id' => $timeline_id
+        ]);
+        return !empty($group_id) ? $group_id : false;
     }
 }
