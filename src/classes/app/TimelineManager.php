@@ -46,21 +46,6 @@ class TimelineManager {
         ]);
     }
 
-    /*
-    public static function get_comment($timeline_id) {
-        $db = new DatabaseManager();
-        $sql = "SELECT vgt.id, vgt.user_id, vgt.user_name, vgt.icon_file_name,
-                       vgt.content_type, vgt.content, vgt.image01, vgt.image02, vgt.image03, vgt.image04,
-                       vgt.movie01_thumbnail, vgt.movie01_content, vgt.post_time
-                FROM view_group_timeline vgt
-                WHERE id = :timeline_id";
-        $data = $db->fetchAll($sql, [
-            'timeline_id' => $timeline_id
-        ]);
-        return $data;
-    }
-    */
-
     public static function post_timeline($group_id, $user_id, $content_type, $date) {
         $db = new DatabaseManager();
         $sql = "INSERT INTO group_timeline (group_id, user_id, content_type, post_time) VALUES (:group_id, :user_id, :content_type, :post_time)";
