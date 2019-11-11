@@ -3,6 +3,7 @@ use Application\Controllers\IndexController;
 use Application\Controllers\AccountController;
 use Application\controllers\MasterController;
 use Application\controllers\TimelineController;
+use Application\controllers\TimelineCommentController;
 use Application\controllers\TokenController;
 use Application\controllers\GroupController;
 use Slim\App;
@@ -16,6 +17,7 @@ require_once __DIR__.'/../src/classes/controllers/AccountController.php';
 require_once __DIR__.'/../src/classes/controllers/TokenController.php';
 require_once __DIR__.'/../src/classes/controllers/GroupController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
+require_once __DIR__.'/../src/classes/controllers/TimelineCommentController.php';
 
 $configuration = [
     'settings' => [
@@ -74,8 +76,8 @@ $app->post('/token/verify-token', TokenController::class.':verify_token');
 
 $app->post('/group/create', GroupController::class.':group_create');
 $app->post('/group/join', GroupController::class.':group_join');
-$app->post('/group/belong-group', GroupController::class.':belong_group');
-$app->post('/group/belong-member', GroupController::class.':belong_member');
+$app->get('/group/belong-group', GroupController::class.':belong_group');
+$app->get('/group/belong-member', GroupController::class.':belong_member');
 $app->post('/group/withdrawal', GroupController::class.':group_withdrawal');
 
 // TODO：グループ退会（強制）
@@ -83,26 +85,39 @@ $app->post('/group/withdrawal', GroupController::class.':group_withdrawal');
 
 $app->get('/timeline/get', TimelineController::class.':get_timeline');
 $app->post('/timeline/post', TimelineController::class.':post_timeline');
+$app->post('/timeline/delete', TimelineController::class.':delete_timeline');
 
-// TODO：タイムライン削除
 // TODO：タイムラインコメント投稿
+$app->post('/timeline/comment/post', TimelineCommentController::class.':post_comment');
 // TODO：タイムラインコメント表示
+$app->get('/timeline/comment/get', TimelineCommentController::class.':get_comment');
 // TODO：タイムラインコメント削除
+$app->post('/timeline/comment/delete', TimelineCommentController::class.':delete_comment');
 
+// TODO：子ども一覧取得
+// $app->get('/child/get', ChildController::class.':get_child');
 // TODO：子ども情報登録
+// $app->post('/child/add', ChildController::class.':add_child');
 // TODO：子ども情報表示
+// $app->get('/child/get', ChildController::class.':get_child');
 // TODO：子ども情報削除
+// $app->post('/child/edit', ChildController::class.':edit_child');
 // TODO：子ども成長記録登録
 // TODO：子ども成長日記投稿
+// $app->post('/child/diary/post', ChildDiaryController::class.':post_diary');
 // TODO：子ども成長日記表示
+// $app->get('/child/diary/get', ChildDiaryController::class.':get_diary');
 // TODO：子ども成長日記削除
+// $app->post('/child/diary/delete', ChildDiaryController::class.':delete_diary');
 // TODO：子ども友だち追加
+// $app->post('/child/friend/add', ChildFriendController::class.':add_friend');
 // TODO：子ども友だち表示
+// $app->get('/child/friend/get', ChildFriendController::class.':get_friend');
 // TODO：子ども友だち編集
+// $app->post('/child/friend/edit', ChildFriendController::class.':edit_friend');
 // TODO：子ども友だち削除
+// $app->post('/child/friend/delete', ChildFriendController::class.':delete_friend');
 // TODO：子ども友だち関連付け
-
-// TODO：顔情報登録
 
 // TODO：アルバムアップロード
 // TODO：アルバム表示
