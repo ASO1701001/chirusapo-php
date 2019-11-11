@@ -1,5 +1,5 @@
 # 所属メンバー取得
-> [POST] /group/belong-member
+> [GET] /group/belong-member
 ## パラメーター
 
 | Param | Require |
