@@ -19,10 +19,16 @@ class Validation {
     // Timeline
     public static $TIMELINE_POST_CONTENT = 'timeline_post_content';
     public static $TIMELINE_POST_COMMENT = 'timeline_post_comment';
-    /*
+
     public static $BODY_HEIGHT = 'body_height';
     public static $BODY_WEIGHT = 'body_weight';
-    */
+    public static $AGE = 'age';
+    public static $BLOOD_TYPE = 'blood_type';
+    public static $CLOTHES_SIZE = 'clothes_size';
+    public static $SHOES_SIZE = 'shoes_size';
+    public static $VACCINATION = 'vaccination';
+    public static $ALLERGY = 'allergy';
+    public static $DATE = 'date';
 
     public static function fire($value, string $rule) {
         $regex = '';
@@ -40,6 +46,7 @@ class Validation {
                 $regex = '/^[a-zA-Z0-9-_]{5,30}$/';
                 break;
             case self::$BIRTHDAY:
+            case self::$DATE:
                 $regex = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/';
                 break;
             case self::$GENDER:
@@ -67,14 +74,29 @@ class Validation {
             case self::$TIMELINE_POST_COMMENT:
                 $regex = '/^.{1,250}$/';
                 break;
-            /*
+
             case self::$BODY_HEIGHT:
-                $regex = '/^13[0-9]|1[4-9][0-9]|2[0-4][0-9]|250$/';
+                $regex = '/^[1-9][0-9]|1[0-9]{2}|200$/';
                 break;
             case self::$BODY_WEIGHT:
-                $regex = '/^[1-9][0-9]|1[0-4][0-9]|150$/';
+                $regex = '/^([1-9]|[1-9][0-9]|1[0-4][0-9]|150)(\.[0-9]+)?$/';
                 break;
-            */
+            case self::$AGE:
+                $regex = '/^[0-9]|[1-9][0-9]$/';
+                break;
+            case self::$BLOOD_TYPE:
+                $regex = '/^[0-4]$/';
+                break;
+            case self::$CLOTHES_SIZE:
+                $regex = '/^[5-9][0-9]|1[0-5][0-9]|160$/';
+                break;
+            case self::$SHOES_SIZE:
+                $regex = '/^([5-9]|[1-2][0-9]|30)(\.[0-9]+)?$/';
+                break;
+            case self::$VACCINATION:
+            case self::$ALLERGY:
+                $regex = '/^.{1,100}$/';
+                break;
         }
 
         return (preg_match($regex, $value)) ? true : false;
