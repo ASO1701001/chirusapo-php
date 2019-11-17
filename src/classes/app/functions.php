@@ -38,3 +38,21 @@ function array_escape($array) {
 function escape($value) {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
+
+/**
+ * @param mixed ...$value
+ * @return bool
+ */
+function is_nulls(...$value): bool {
+    for ($i = 0; $i < count($value); $i++) {
+        if (is_null($value[$i])) {
+            return true;
+        } else {
+            if (empty($value[$i])) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
