@@ -1,4 +1,5 @@
 <?php
+use Application\Controllers\ChildController;
 use Application\Controllers\IndexController;
 use Application\Controllers\AccountController;
 use Application\controllers\MasterController;
@@ -10,7 +11,9 @@ use Slim\App;
 use Slim\Container;
 use Slim\Http\Response;
 
+// autoload
 require_once __DIR__.'/../vendor/autoload.php';
+// controller
 require_once __DIR__.'/../src/classes/controllers/IndexController.php';
 require_once __DIR__.'/../src/classes/controllers/MasterController.php';
 require_once __DIR__.'/../src/classes/controllers/AccountController.php';
@@ -18,6 +21,25 @@ require_once __DIR__.'/../src/classes/controllers/TokenController.php';
 require_once __DIR__.'/../src/classes/controllers/GroupController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineCommentController.php';
+require_once __DIR__.'/../src/classes/controllers/ChildController.php';
+// manager
+//require_once __DIR__.'/../src/classes/app/FunctionApp.php';
+require_once __DIR__.'/../src/classes/app/MasterManager.php';
+require_once __DIR__.'/../src/classes/app/AccountManager.php';
+require_once __DIR__.'/../src/classes/app/TokenManager.php';
+require_once __DIR__.'/../src/classes/app/GroupManager.php';
+require_once __DIR__.'/../src/classes/app/TimelineManager.php';
+require_once __DIR__.'/../src/classes/app/ChildManager.php';
+// lib
+require_once __DIR__.'/../src/classes/lib/DatabaseManager.php';
+require_once __DIR__.'/../src/classes/lib/Error.php';
+require_once __DIR__.'/../src/classes/lib/Validation.php';
+require_once __DIR__.'/../src/classes/lib/Mailer.php';
+require_once __DIR__.'/../src/classes/lib/GoogleCloudStorage.php';
+require_once __DIR__.'/../src/classes/lib/FFMpegManager.php';
+// etc.
+require_once __DIR__.'/../src/classes/app/functions.php';
+
 
 $configuration = [
     'settings' => [
@@ -86,22 +108,14 @@ $app->post('/group/withdrawal', GroupController::class.':group_withdrawal');
 $app->get('/timeline/get', TimelineController::class.':get_timeline');
 $app->post('/timeline/post', TimelineController::class.':post_timeline');
 $app->post('/timeline/delete', TimelineController::class.':delete_timeline');
-
-// TODO：タイムラインコメント投稿
 $app->post('/timeline/comment/post', TimelineCommentController::class.':post_comment');
-// TODO：タイムラインコメント表示
 $app->get('/timeline/comment/get', TimelineCommentController::class.':get_comment');
-// TODO：タイムラインコメント削除
 $app->post('/timeline/comment/delete', TimelineCommentController::class.':delete_comment');
 
-// TODO：子ども一覧取得
-// $app->get('/child/get', ChildController::class.':get_child');
-// TODO：子ども情報登録
-// $app->post('/child/add', ChildController::class.':add_child');
-// TODO：子ども情報表示
-// $app->get('/child/get', ChildController::class.':get_child');
-// TODO：子ども情報削除
-// $app->post('/child/edit', ChildController::class.':edit_child');
+$app->get('/child/list', ChildController::class.':list_child');
+$app->post('/child/add', ChildController::class.':add_child');
+$app->post('/child/edit', ChildController::class.':edit_child');
+$app->post('/child/delete', ChildController::class.':delete_child');
 // TODO：子ども成長記録登録
 // TODO：子ども成長日記投稿
 // $app->post('/child/diary/post', ChildDiaryController::class.':post_diary');
