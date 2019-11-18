@@ -8,7 +8,7 @@
 | email | Yes |
 | password | Yes |
 | gender | Yes |
-| birthday | No |
+| birthday | Yes |
 ## レスポンス
 ### 成功時
 > このAPIは成功した場合、ログイントークン・ユーザー基本情報を返します
