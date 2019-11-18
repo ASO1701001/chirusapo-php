@@ -58,8 +58,8 @@ class TimelineCommentController {
                         'status' => 200,
                         'message' => null,
                         'data' => [
-                            'timeline' => $timeline_data,
-                            'comment' => $comment_data
+                            'timeline_data' => $timeline_data,
+                            'comment_data' => $comment_data
                         ]
                     ];
                 }
@@ -131,8 +131,8 @@ class TimelineCommentController {
                             'status' => 200,
                             'message' => null,
                             'data' => [
-                                'timeline' => $timeline_data,
-                                'comment' => $comment_data
+                                'timeline_data' => $timeline_data,
+                                'comment_data' => $comment_data
                             ]
                         ];
                     }
