@@ -47,3 +47,15 @@
 
 ### [タイムライン投稿](/_api-document/timeline/post.md)
 /timeline/post
+
+### [タイムライン削除](/_api-document/timeline/delete.md)
+/timeline/delete
+
+### [タイムラインコメント投稿](/_api-document/timeline/comment/post.md)
+/timeline/comment/post
+
+### [タイムラインコメント取得](/_api-document/timeline/comment/get.md)
+/timeline/comment/get
+
+### [タイムラインコメント削除](/_api-document/timeline/comment/delete.md)
+/timeline/comment/delete
