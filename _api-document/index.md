@@ -59,3 +59,15 @@
 
 ### [タイムラインコメント削除](/_api-document/timeline/comment/delete.md)
 /timeline/comment/delete
+
+### [子ども情報一覧取得](/_api-document/child/list.md)
+/child/list
+
+### [子ども情報登録](/_api-document/child/add.md)
+/child/add
+
+### [子ども情報編集](/_api-document/child/edit.md)
+/child/edit
+
+### [子ども情報削除](/_api-document/child/delete.md)
+/child/delete

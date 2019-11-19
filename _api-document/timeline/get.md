@@ -83,7 +83,7 @@
 | REQUIRED_PARAM | 値が不足している場合に返されます |
 | VALIDATION_GROUP_ID | バリデーションに失敗した場合に返されます |
 | UNKNOWN_TOKEN | ログイントークンの検証に失敗した場合に返されます |
-| UNKNOWN_GROUP | 参加しようとしているグループ情報が見つからない場合に返されます |
+| UNKNOWN_GROUP | グループ情報が見つからない場合に返されます |
 | UNREADY_BELONG_GROUP | グループに所属していない場合に返されます |
 ``` JSON
 {
