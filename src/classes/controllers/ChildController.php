@@ -173,13 +173,13 @@ class ChildController {
                                     }
                                 }
                                 ChildManager::add_growth_history($child_id, $body_height, $body_weight, $clothes_size, $shoes_size, date('Y-m-d'));
-                                $child_list = ChildManager::get_child_list($inner_group_id);
+                                $child_info = ChildManager::get_child($child_id);
 
                                 $result = [
                                     'status' => 200,
                                     'message' => null,
                                     'data' => [
-                                        'child_list' => $child_list
+                                        'child_info' => $child_info
                                     ]
                                 ];
                             }
@@ -466,14 +466,11 @@ class ChildController {
                     } else {
                         $inner_child_id = ChildManager::child_id_to_inner_child_id($child_id);
                         ChildManager::delete_child($inner_child_id);
-                        $child_list = ChildManager::get_child_list($group_id);
 
                         $result = [
                             'status' => 200,
                             'message' => null,
-                            'data' => [
-                                'child_list' => $child_list
-                            ]
+                            'data' => null
                         ];
                     }
                 }
