@@ -257,6 +257,64 @@ class ChildController {
         return $response->withJson($result);
     }
 
+    public static function get_child(Request $request, Response $response) {
+        $param = array_escape($request->getQueryParams());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $child_id = isset($param['child_id']) ? $param['child_id'] : null;
+
+        $error = [];
+
+        if (is_nulls($token, $child_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+            $inner_group_id = ChildManager::child_id_to_group_id($child_id);
+
+            if (!$user_id || !$inner_group_id) {
+                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$inner_group_id) $error[] = Error::$UNKNOWN_CHILD;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                $belong_group = GroupManager::already_belong_group($inner_group_id, $user_id);
+
+                if (!$belong_group) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$UNREADY_BELONG_GROUP
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    $inner_child_id = ChildManager::child_id_to_inner_child_id($child_id);
+                    $child_info = ChildManager::get_child($inner_child_id);
+
+                    $result = [
+                        'status' => 200,
+                        'message' => null,
+                        'data' => [
+                            'child_info' => $child_info
+                        ]
+                    ];
+                }
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
     public static function edit_child(Request $request, Response $response) {
         $param = array_escape($request->getParsedBody());
         $file = $request->getUploadedFiles();
@@ -315,7 +373,6 @@ class ChildController {
                     } else {
                         $inner_child_id = ChildManager::child_id_to_inner_child_id($child_id);
 
-                        // 正規表現
                         $validation_vaccination = true;
                         if (!is_null($vaccination_new)) {
                             foreach ($vaccination_new as $value) {
