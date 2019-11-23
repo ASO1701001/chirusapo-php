@@ -30,6 +30,10 @@ class Validation {
     public static $ALLERGY = 'allergy';
     public static $DATE = 'date';
 
+    public static $CALENDAR_TITLE = 'calendar_title';
+    public static $CALENDAR_CONTENT = 'calendar_content';
+    public static $CALENDAR_REMIND_FLG = 'calendar_remind_flg';
+
     public static function fire($value, string $rule) {
         $regex = '';
         switch ($rule) {
@@ -96,6 +100,15 @@ class Validation {
             case self::$VACCINATION:
             case self::$ALLERGY:
                 $regex = '/^.{1,100}$/';
+                break;
+            case self::$CALENDAR_TITLE:
+                $regex = '/^.{1,30}$/';
+                break;
+            case self::$CALENDAR_CONTENT:
+                return mb_strlen($value) <= 200 ? true : false;
+                break;
+            case self::$CALENDAR_REMIND_FLG:
+                $regex = '/^[0-1]$/';
                 break;
         }
 
