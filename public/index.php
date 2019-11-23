@@ -1,4 +1,5 @@
 <?php
+use Application\Controllers\CalendarController;
 use Application\Controllers\ChildController;
 use Application\Controllers\IndexController;
 use Application\Controllers\AccountController;
@@ -22,14 +23,15 @@ require_once __DIR__.'/../src/classes/controllers/GroupController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildController.php';
+require_once __DIR__.'/../src/classes/controllers/CalendarController.php';
 // manager
-//require_once __DIR__.'/../src/classes/app/FunctionApp.php';
 require_once __DIR__.'/../src/classes/app/MasterManager.php';
 require_once __DIR__.'/../src/classes/app/AccountManager.php';
 require_once __DIR__.'/../src/classes/app/TokenManager.php';
 require_once __DIR__.'/../src/classes/app/GroupManager.php';
 require_once __DIR__.'/../src/classes/app/TimelineManager.php';
 require_once __DIR__.'/../src/classes/app/ChildManager.php';
+require_once __DIR__.'/../src/classes/app/CalendarManager.php';
 // lib
 require_once __DIR__.'/../src/classes/lib/DatabaseManager.php';
 require_once __DIR__.'/../src/classes/lib/Error.php';
@@ -39,7 +41,6 @@ require_once __DIR__.'/../src/classes/lib/GoogleCloudStorage.php';
 require_once __DIR__.'/../src/classes/lib/FFMpegManager.php';
 // etc.
 require_once __DIR__.'/../src/classes/app/functions.php';
-
 
 $configuration = [
     'settings' => [
@@ -113,34 +114,40 @@ $app->get('/timeline/comment/get', TimelineCommentController::class.':get_commen
 $app->post('/timeline/comment/delete', TimelineCommentController::class.':delete_comment');
 
 $app->get('/child/list', ChildController::class.':list_child');
+$app->get('/child/get', ChildController::class.':get_child');
 $app->post('/child/add', ChildController::class.':add_child');
 $app->post('/child/edit', ChildController::class.':edit_child');
 $app->post('/child/delete', ChildController::class.':delete_child');
-// TODO：子ども成長記録登録
-// TODO：子ども成長日記投稿
-// $app->post('/child/diary/post', ChildDiaryController::class.':post_diary');
+
+// $app->get('/child/diary/history/list', ChildDiaryHistoryController::class.':list_diary');
+// $app->get('/child/diary/history/get', ChildDiaryHistoryController::class.':get_diary');
+// $app->post('/child/diary/history/add', ChildDiaryHistoryController::class.':add_diary');
+
 // TODO：子ども成長日記表示
 // $app->get('/child/diary/get', ChildDiaryController::class.':get_diary');
+// TODO：子ども成長日記投稿
+// $app->post('/child/diary/post', ChildDiaryController::class.':post_diary');
 // TODO：子ども成長日記削除
 // $app->post('/child/diary/delete', ChildDiaryController::class.':delete_diary');
-// TODO：子ども友だち追加
-// $app->post('/child/friend/add', ChildFriendController::class.':add_friend');
 // TODO：子ども友だち表示
 // $app->get('/child/friend/get', ChildFriendController::class.':get_friend');
+// TODO：子ども友だち追加
+// $app->post('/child/friend/add', ChildFriendController::class.':add_friend');
 // TODO：子ども友だち編集
 // $app->post('/child/friend/edit', ChildFriendController::class.':edit_friend');
 // TODO：子ども友だち削除
 // $app->post('/child/friend/delete', ChildFriendController::class.':delete_friend');
 // TODO：子ども友だち関連付け
+// $app->post('/child/friend/correlate', ChildFriendController::class.':correlate_friend');
 
-// TODO：アルバムアップロード
 // TODO：アルバム表示
+// TODO：アルバムアップロード
 
-// TODO：アカウントLINEログイン
-
-// TODO：カレンダー表示
-// TODO：カレンダー追加
-// TODO：カレンダー削除
+$app->get('/calendar/get', CalendarController::class.':get_calendar');
+$app->get('/calendar/search', CalendarController::class.':search_calendar');
+$app->post('/calendar/add', CalendarController::class.':add_calendar');
+$app->post('/calendar/edit', CalendarController::class.':edit_calendar');
+$app->post('/calendar/delete', CalendarController::class.':delete_calendar');
 
 try {
     $app->run();
