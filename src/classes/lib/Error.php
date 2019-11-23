@@ -52,4 +52,11 @@ class Error {
     public static $VALIDATION_VACCINATION = 'VALIDATION_VACCINATION';
     public static $VALIDATION_ALLERGY = 'VALIDATION_ALLERGY';
     public static $UNKNOWN_CHILD = 'UNKNOWN_CHILD';
+    // Calendar
+    public static $VALIDATION_TITLE = 'VALIDATION_TITLE';
+    public static $VALIDATION_CONTENT = 'VALIDATION_CONTENT';
+    public static $VALIDATION_DATE = 'VALIDATION_DATE';
+    public static $VALIDATION_REMIND_FLG = 'VALIDATION_REMIND_FLG';
+    public static $VALIDATION_BEGIN_DATE = 'VALIDATION_BEGIN_DATE';
+    public static $VALIDATION_END_DATE = 'VALIDATION_END_DATE';
 }
