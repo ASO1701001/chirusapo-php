@@ -1,6 +1,7 @@
 <?php
 use Application\Controllers\CalendarController;
 use Application\Controllers\ChildController;
+use Application\Controllers\ChildGrowthHistoryController;
 use Application\Controllers\IndexController;
 use Application\Controllers\AccountController;
 use Application\controllers\MasterController;
@@ -23,6 +24,7 @@ require_once __DIR__.'/../src/classes/controllers/GroupController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildController.php';
+require_once __DIR__ . '/../src/classes/controllers/ChildGrowthHistoryController.php';
 require_once __DIR__.'/../src/classes/controllers/CalendarController.php';
 // manager
 require_once __DIR__.'/../src/classes/app/MasterManager.php';
@@ -119,9 +121,9 @@ $app->post('/child/add', ChildController::class.':add_child');
 $app->post('/child/edit', ChildController::class.':edit_child');
 $app->post('/child/delete', ChildController::class.':delete_child');
 
-// $app->get('/child/diary/history/list', ChildDiaryHistoryController::class.':list_diary');
-// $app->get('/child/diary/history/get', ChildDiaryHistoryController::class.':get_diary');
-// $app->post('/child/diary/history/add', ChildDiaryHistoryController::class.':add_diary');
+$app->get('/child/growth/history/list', ChildGrowthHistoryController::class.':list_history');
+$app->get('/child/growth/history/get', ChildGrowthHistoryController::class.':get_history');
+$app->post('/child/growth/history/add', ChildGrowthHistoryController::class.':add_history');
 
 // TODO：子ども成長日記表示
 // $app->get('/child/diary/get', ChildDiaryController::class.':get_diary');

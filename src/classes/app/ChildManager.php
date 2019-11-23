@@ -82,11 +82,12 @@ class ChildManager {
      * @param $clothes_size
      * @param $shoes_size
      * @param $add_date
+     * @return string
      */
     public static function add_growth_history($child_id, $body_height, $body_weight, $clothes_size, $shoes_size, $add_date) {
         $db = new DatabaseManager();
         $sql = "INSERT INTO child_growth_history (child_id, body_height, body_weight, clothes_size, shoes_size, add_date) VALUES (:child_id, :body_height, :body_weight, :clothes_size, :shoes_size, :add_date)";
-        $db->insert($sql, [
+        $history_id = $db->insert($sql, [
             'child_id' => $child_id,
             'body_height' => $body_height,
             'body_weight' => $body_weight,
@@ -94,6 +95,7 @@ class ChildManager {
             'shoes_size' => $shoes_size,
             'add_date' => $add_date
         ]);
+        return $history_id;
     }
 
     /** 子ども一覧取得
@@ -296,5 +298,49 @@ class ChildManager {
             'icon_file_name' => $icon_file_name,
             'child_id' => $child_id
         ]);
+    }
+
+    public static function get_growth_history($child_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT body_height, body_weight, clothes_size, shoes_size, add_date
+                FROM child_growth_history cgh
+                LEFT JOIN account_child ac ON ac.id = cgh.child_id
+                WHERE cgh.child_id = :child_id
+                ORDER BY add_date DESC";
+        $data = $db->fetchAll($sql, [
+            'child_id' => $child_id
+        ]);
+        $result = [];
+        foreach ($data as $value) {
+            $result[$value['add_date']][] = [
+                'body_height' => $value['body_height'],
+                'body_weight' => $value['body_weight'],
+                'clothes_size' => $value['clothes_size'],
+                'shoes_size' => $value['shoes_size']
+            ];
+        }
+        return $result;
+    }
+
+    public static function list_growth_history($group_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT ac.user_id, body_height, body_weight, clothes_size, shoes_size, add_date
+                FROM child_growth_history cgh
+                LEFT JOIN account_child ac ON ac.id = cgh.child_id
+                WHERE ac.group_id = :group_id
+                ORDER BY ac.id, add_date DESC";
+        $data = $db->fetchAll($sql, [
+            'group_id' => $group_id
+        ]);
+        $result = [];
+        foreach ($data as $value) {
+            $result[$value['user_id']][$value['add_date']][] = [
+                'body_height' => $value['body_height'],
+                'body_weight' => $value['body_weight'],
+                'clothes_size' => $value['clothes_size'],
+                'shoes_size' => $value['shoes_size']
+            ];
+        }
+        return $result;
     }
 }
