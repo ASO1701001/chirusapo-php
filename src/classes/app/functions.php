@@ -44,15 +44,43 @@ function escape($value) {
  * @return bool
  */
 function is_nulls(...$value): bool {
+    $judge = [];
+
     for ($i = 0; $i < count($value); $i++) {
+        if (is_null($value[$i])) {
+            $judge[$i] = true;
+        } else if ($value[$i] == '') {
+            $judge[$i] = true;
+        } else {
+            $judge[$i] = false;
+        }
+
+        /*
+        if (is_null($value[$i])) {
+            $judge[$i] = true;
+        } else if ($value[$i] === 0 || $value[$i] === "0") {
+            $judge[$i] = false;
+        } else if (is_bool($value[$i])) {
+            $judge[$i] = false;
+        } else if (empty($value[$i])) {
+            $judge[$i] = true;
+        } else {
+            $judge[$i] = false;
+        }
+        */
+
+        /*
         if (is_null($value[$i])) {
             return true;
         } else {
-            if (empty($value[$i])) {
+            if (is_int($value[$i])) {
+                return false;
+            } else if (empty($value[$i])) {
                 return true;
             }
         }
+        */
     }
 
-    return false;
+    return array_search(true, $judge, true) ? true : false ;
 }
