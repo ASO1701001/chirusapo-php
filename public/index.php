@@ -1,6 +1,7 @@
 <?php
 use Application\Controllers\CalendarController;
 use Application\Controllers\ChildController;
+use Application\Controllers\ChildGrowthDiaryController;
 use Application\Controllers\ChildGrowthHistoryController;
 use Application\Controllers\IndexController;
 use Application\Controllers\AccountController;
@@ -24,7 +25,8 @@ require_once __DIR__.'/../src/classes/controllers/GroupController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildController.php';
-require_once __DIR__ . '/../src/classes/controllers/ChildGrowthHistoryController.php';
+require_once __DIR__ .'/../src/classes/controllers/ChildGrowthHistoryController.php';
+require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryController.php';
 require_once __DIR__.'/../src/classes/controllers/CalendarController.php';
 // manager
 require_once __DIR__.'/../src/classes/app/MasterManager.php';
@@ -33,6 +35,7 @@ require_once __DIR__.'/../src/classes/app/TokenManager.php';
 require_once __DIR__.'/../src/classes/app/GroupManager.php';
 require_once __DIR__.'/../src/classes/app/TimelineManager.php';
 require_once __DIR__.'/../src/classes/app/ChildManager.php';
+require_once __DIR__.'/../src/classes/app/ChildDiaryManager.php';
 require_once __DIR__.'/../src/classes/app/CalendarManager.php';
 // lib
 require_once __DIR__.'/../src/classes/lib/DatabaseManager.php';
@@ -96,6 +99,7 @@ $app->post('/account/resign', AccountController::class.':resign');
 $app->post('/account/password-reset', AccountController::class.':password_reset');
 $app->post('/account/password-change', AccountController::class.':password_change');
 $app->post('/account/edit', AccountController::class.':account_edit');
+$app->get('/account/member-user-info', AccountController::class.':member_user_info');
 
 $app->post('/token/verify-token', TokenController::class.':verify_token');
 
@@ -125,21 +129,17 @@ $app->get('/child/growth/history/list', ChildGrowthHistoryController::class.':li
 $app->get('/child/growth/history/get', ChildGrowthHistoryController::class.':get_history');
 $app->post('/child/growth/history/add', ChildGrowthHistoryController::class.':add_history');
 
-// TODO：子ども成長日記表示
-// $app->get('/child/diary/get', ChildDiaryController::class.':get_diary');
-// TODO：子ども成長日記投稿
-// $app->post('/child/diary/post', ChildDiaryController::class.':post_diary');
-// TODO：子ども成長日記削除
-// $app->post('/child/diary/delete', ChildDiaryController::class.':delete_diary');
-// TODO：子ども友だち表示
+$app->get('/child/growth/diary/get', ChildGrowthDiaryController::class.':get_diary');
+$app->post('/child/growth/diary/post', ChildGrowthDiaryController::class.':post_diary');
+$app->post('/child/growth/diary/delete', ChildGrowthDiaryController::class.':delete_diary');
+
+// $app->get('/child/growth/diary/comment/get', ChildDiaryController::class.':get_diary');
+// $app->post('/child/growth/diary/comment/post', ChildDiaryController::class.':post_diary');
+// $app->post('/child/growth/diary/comment/delete', ChildDiaryController::class.':delete_diary');
 // $app->get('/child/friend/get', ChildFriendController::class.':get_friend');
-// TODO：子ども友だち追加
 // $app->post('/child/friend/add', ChildFriendController::class.':add_friend');
-// TODO：子ども友だち編集
 // $app->post('/child/friend/edit', ChildFriendController::class.':edit_friend');
-// TODO：子ども友だち削除
 // $app->post('/child/friend/delete', ChildFriendController::class.':delete_friend');
-// TODO：子ども友だち関連付け
 // $app->post('/child/friend/correlate', ChildFriendController::class.':correlate_friend');
 
 // TODO：アルバム表示
