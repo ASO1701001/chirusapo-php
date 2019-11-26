@@ -22,6 +22,7 @@ class Error {
     public static $UNKNOWN_USER = 'UNKNOWN_USER';
     public static $VALIDATION_LINE_ID = 'VALIDATION_LINE_ID';
     public static $VALIDATION_INTRODUCTION = 'VALIDATION_INTRODUCTION';
+    public static $UNKNOWN_TARGET_USER = 'UNKNOWN_TARGET_USER';
     // Token
     public static $UNKNOWN_TOKEN = 'UNKNOWN_TOKEN';
     // Group
@@ -52,6 +53,8 @@ class Error {
     public static $VALIDATION_VACCINATION = 'VALIDATION_VACCINATION';
     public static $VALIDATION_ALLERGY = 'VALIDATION_ALLERGY';
     public static $UNKNOWN_CHILD = 'UNKNOWN_CHILD';
+    public static $VALIDATION_ADD_DATE = 'VALIDATION_ADD_DATE';
+    public static $VALIDATION_DIARY_POST_CONTENT = 'VALIDATION_DIARY_POST_CONTENT';
     // Calendar
     public static $VALIDATION_TITLE = 'VALIDATION_TITLE';
     public static $VALIDATION_CONTENT = 'VALIDATION_CONTENT';
