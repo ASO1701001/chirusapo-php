@@ -161,7 +161,7 @@ class ChildController {
                                     'data' => null
                                 ];
                             } else {
-                                $child_id = ChildManager::add_child($inner_group_id, $user_id, $user_name, $birthday, $gender, $blood_type, $icon_file_name);
+                                $child_id = ChildManager::add_child($inner_group_id, $user_id, $user_name, $birthday, $age, $gender, $blood_type, $icon_file_name);
                                 if (!is_null($vaccination)) {
                                     foreach ($vaccination as $value) {
                                         ChildManager::add_vaccination($child_id, $value['vaccine_name'], $value['visit_date']);

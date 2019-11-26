@@ -9,19 +9,21 @@ class ChildManager {
      * @param $user_id
      * @param $user_name
      * @param $birthday
+     * @param $age
      * @param $gender
      * @param $blood_type
      * @param $user_icon
      * @return string
      */
-    public static function add_child($group_id, $user_id, $user_name, $birthday, $gender, $blood_type, $user_icon) {
+    public static function add_child($group_id, $user_id, $user_name, $birthday, $age, $gender, $blood_type, $user_icon) {
         $db = new DatabaseManager();
-        $sql = "INSERT INTO account_child (group_id, user_id, user_name, birthday, gender, blood_type, icon) VALUES (:group_id, :user_id, :user_name, :birthday, :gender, :blood_type, :user_icon)";
+        $sql = "INSERT INTO account_child (group_id, user_id, user_name, birthday, age, gender, blood_type, icon) VALUES (:group_id, :user_id, :user_name, :birthday, :age, :gender, :blood_type, :user_icon)";
         $child_id = $db->insert($sql, [
             'group_id' => $group_id,
             'user_id' => $user_id,
             'user_name' => $user_name,
             'birthday' => $birthday,
+            'age' => $age,
             'gender' => $gender,
             'blood_type' => $blood_type,
             'user_icon' => $user_icon
@@ -342,5 +344,16 @@ class ChildManager {
             ];
         }
         return $result;
+    }
+
+    public static function have_child_list($user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT user_id, user_name, age
+                FROM account_child ac
+                WHERE ac.group_id IN (SELECT group_id FROM group_user WHERE user_id = :user_id)";
+        $data = $db->fetchAll($sql, [
+            'user_id' => $user_id
+        ]);
+        return $data;
     }
 }
