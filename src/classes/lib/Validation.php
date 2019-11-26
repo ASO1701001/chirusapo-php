@@ -33,6 +33,7 @@ class Validation {
     public static $CALENDAR_TITLE = 'calendar_title';
     public static $CALENDAR_CONTENT = 'calendar_content';
     public static $CALENDAR_REMIND_FLG = 'calendar_remind_flg';
+    public static $DIARY_POST_CONTENT = 'diary_post_content';
 
     public static function fire($value, string $rule) {
         $regex = '';
@@ -109,6 +110,9 @@ class Validation {
                 break;
             case self::$CALENDAR_REMIND_FLG:
                 $regex = '/^[0-1]$/';
+                break;
+            case self::$DIARY_POST_CONTENT:
+                return mb_strlen($value) <= 250 ? true : false;
                 break;
         }
 
