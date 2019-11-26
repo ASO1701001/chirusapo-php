@@ -176,6 +176,24 @@ EOF;
         ];
     }
 
+    public static function member_user_info($user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT user_id, user_name, birthday, gender, introduction, icon_file_name, line_id FROM account_user WHERE id = :user_id";
+        $data = $db->fetch($sql, [
+            'user_id' => $user_id
+        ]);
+        return [
+            'user_id' => $data['user_id'],
+            'user_name' => $data['user_name'],
+            'email' => $data['email'],
+            'birthday' => $data['birthday'],
+            'gender' => $data['gender'],
+            'introduction' => !empty($data['introduction']) ? $data['introduction'] : null,
+            'user_icon' => !empty($data['icon_file_name']) ? 'https://storage.googleapis.com/chirusapo/user-icon/'.$data['icon_file_name'] : null,
+            'line_id' => !empty($data['line_id']) ? $data['line_id'] : null
+        ];
+    }
+
     public static function update_user_name($user_id, $user_name) {
         $db = new DatabaseManager();
         $sql = "UPDATE account_user SET user_name = :user_name WHERE id = :user_id";
@@ -234,5 +252,15 @@ EOF;
             'user_icon' => $user_icon,
             'user_id' => $user_id
         ]);
+    }
+
+    public static function get_user_id($user_id) {
+        if (!self::already_user_id($user_id)) return false;
+        $db = new DatabaseManager();
+        $sql = "SELECT id FROM account_user WHERE user_id = :user_id";
+        $inner_user_id = $db->fetchColumn($sql, [
+            'user_id' => $user_id
+        ]);
+        return $inner_user_id;
     }
 }

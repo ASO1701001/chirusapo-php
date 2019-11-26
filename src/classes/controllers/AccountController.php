@@ -1,6 +1,7 @@
 <?php
 namespace Application\Controllers;
 
+use Application\App\ChildManager;
 use Application\lib\GoogleCloudStorage as GCS;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -463,6 +464,65 @@ class AccountController {
                     ],
                     'data' => null
                 ];
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
+    public static function member_user_info(Request $request, Response $response) {
+        $param = array_escape($request->getQueryParams());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $user_id = isset($param['target_user_id']) ? $param['target_user_id'] : null;
+
+        $error = [];
+
+        if (is_nulls($token, $user_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+            $target_user_id = AccountManager::get_user_id($user_id);
+
+            if (!$user_id || !$target_user_id) {
+                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$target_user_id) $error[] = Error::$UNKNOWN_TARGET_USER;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                $group_member = GroupManager::family_user_id($user_id, $target_user_id);
+
+                if ($group_member) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$UNAUTHORIZED_OPERATION
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    $user_info = AccountManager::member_user_info($target_user_id);
+                    $child_info = ChildManager::have_child_list($user_id);
+
+                    $result = [
+                        'status' => 200,
+                        'message' => null,
+                        'data' => [
+                            'user_info' => $user_info,
+                            'child_info' => $child_info
+                        ]
+                    ];
+                }
             }
         }
 
