@@ -166,4 +166,22 @@ class GroupManager {
         ]);
         return $count == 0 ? false : true;
     }
+
+    /**
+     * @param $target_user_id
+     * @param $user_id
+     * @return bool
+     */
+    public static function family_user_id($user_id, $target_user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT (count(group_id) = 0, false, true) result
+                FROM group_user
+                WHERE user_id = :target_user_id
+                AND group_id IN (SELECT group_id FROM group_user WHERE user_id = :user_id)";
+        $result = $db->fetchColumn($sql, [
+            'target_user_id' => $target_user_id,
+            'user_id' => $user_id
+        ]);
+        return $result;
+    }
 }
