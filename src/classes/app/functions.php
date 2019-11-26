@@ -82,5 +82,5 @@ function is_nulls(...$value): bool {
         */
     }
 
-    return array_search(true, $judge, true) ? true : false ;
+    return in_array(true, $judge, true);
 }
