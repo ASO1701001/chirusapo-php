@@ -73,6 +73,15 @@ class ChildDiaryManager {
         return $count == 0 ? false : true;
     }
 
+    public static function have_comment_id($comment_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT count(*) FROM child_growth_diary_comment WHERE id = :comment_id";
+        $count = $db->fetchColumn($sql, [
+            'comment_id' => $comment_id
+        ]);
+        return $count == 0 ? false : true;
+    }
+
     public static function have_diary_id_from_user_id($diary_id, $user_id) {
         $db = new DatabaseManager();
         $sql = "SELECT count(*) FROM child_growth_diary WHERE id = :diary_id AND user_id = :user_id";
@@ -140,5 +149,73 @@ class ChildDiaryManager {
                 break;
         }
         return $result;
+    }
+
+    public static function get_comment($diary_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT cgdc.id, au.user_id, au.user_name, au.icon_file_name, cgdc.comment, cgdc.post_time
+                FROM child_growth_diary_comment cgdc 
+                INNER JOIN account_user au ON au.id = cgdc.user_id
+                WHERE cgdc.diary_id = :diary_id";
+        $data = $db->fetchAll($sql, [
+            'diary_id' => $diary_id
+        ]);
+        foreach ($data as $key => $value) {
+            $data[$key]['user_icon'] = !empty($comment['icon_file_name']) ? 'https://storage.googleapis.com/chirusapo/user-icon/'.$data['icon_file_name'] : null;
+        }
+        return $data;
+    }
+
+    public static function post_comment($diary_id, $user_id, $comment) {
+        $db = new DatabaseManager();
+        $sql = "INSERT INTO child_growth_diary_comment (diary_id, user_id, comment, post_time) 
+                VALUES (:diary_id, :user_id, :comment, :post_time)";
+        $comment_id = $db->insert($sql, [
+            'diary_id' => $diary_id,
+            'user_id' => $user_id,
+            'comment' => $comment,
+            'post_time' => date('Y-m-d')
+        ]);
+        return $comment_id;
+    }
+
+    public static function delete_comment($comment_id) {
+        $db = new DatabaseManager();
+        $sql = "DELETE FROM child_growth_diary_comment WHERE id = :comment_id";
+        $db->execute($sql, [
+            'comment_id' => $comment_id
+        ]);
+    }
+
+    public static function have_post_comment_permission($diary_id, $user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT if(count(*) = 0, false, true) result
+                FROM group_user
+                WHERE user_id = :user_id
+                  AND group_id IN (
+                    SELECT group_id
+                    FROM account_child
+                    WHERE id IN (
+                        SELECT child_id
+                        FROM child_growth_diary
+                        WHERE id = :diary_id
+                    )
+                )";
+        $result = $db->fetchColumn($sql, [
+            'user_id' => $user_id,
+            'diary_id' => $diary_id
+        ]);
+        return boolval($result);
+    }
+
+    public static function have_delete_comment_permission($comment_id, $user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT * FROM child_growth_diary_comment
+                WHERE id = :comment_id AND user_id = :user_id";
+        $result = $db->fetchColumn($sql, [
+            'comment_id' => $comment_id,
+            'user_id' => $user_id
+        ]);
+        return boolval($result);
     }
 }
