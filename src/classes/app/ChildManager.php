@@ -356,4 +356,15 @@ class ChildManager {
         ]);
         return $data;
     }
+
+    public static function already_record_growth_history($child_id, $add_date) {
+        $db = new DatabaseManager();
+        $sql = "SELECT count(*) FROM child_growth_history
+                WHERE child_id = :child_id AND add_date = :add_date";
+        $result = $db->fetchColumn($sql, [
+            'child_id' => $child_id,
+            'add_date' => $add_date
+        ]);
+        return $result == 0 ? false : true;
+    }
 }

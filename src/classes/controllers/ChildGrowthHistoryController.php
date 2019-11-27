@@ -82,16 +82,27 @@ class ChildGrowthHistoryController {
                         ];
                     } else {
                         $inner_child_id = ChildManager::child_id_to_inner_child_id($child_id);
-                        ChildManager::add_growth_history($inner_child_id, $body_height, $body_weight, $clothes_size, $shoes_size, $add_date);
-                        $history_data = ChildManager::get_growth_history($inner_child_id);
 
-                        $result = [
-                            'status' => 200,
-                            'message' => null,
-                            'data' => [
-                                'history_data' => $history_data
-                            ]
-                        ];
+                        if (ChildManager::already_record_growth_history($child_id, $add_date)) {
+                            $result = [
+                                'status' => 400,
+                                'message' => [
+                                    Error::$ALREADY_RECORD
+                                ],
+                                'data' => null
+                            ];
+                        } else {
+                            ChildManager::add_growth_history($inner_child_id, $body_height, $body_weight, $clothes_size, $shoes_size, $add_date);
+                            $history_data = ChildManager::get_growth_history($inner_child_id);
+
+                            $result = [
+                                'status' => 200,
+                                'message' => null,
+                                'data' => [
+                                    'history_data' => $history_data
+                                ]
+                            ];
+                        }
                     }
                 }
             }
