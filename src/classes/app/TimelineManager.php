@@ -202,9 +202,9 @@ class TimelineManager {
 
     public static function get_comment($timeline_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT gtc.id, ac.user_id, ac.user_name, ac.icon_file_name, gtc.comment, gtc.post_time
+        $sql = "SELECT gtc.id, au.user_id, au.user_name, au.icon_file_name, gtc.comment, gtc.post_time
                 FROM group_timeline_comment gtc
-                INNER JOIN account_user ac ON ac.id = gtc.user_id
+                INNER JOIN account_user au ON au.id = gtc.user_id
                 WHERE gtc.timeline_id = :timeline_id";
         $data = $db->fetchAll($sql, [
             'timeline_id' => $timeline_id
