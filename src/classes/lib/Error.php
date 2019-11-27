@@ -55,6 +55,7 @@ class Error {
     public static $UNKNOWN_CHILD = 'UNKNOWN_CHILD';
     public static $VALIDATION_ADD_DATE = 'VALIDATION_ADD_DATE';
     public static $VALIDATION_DIARY_POST_CONTENT = 'VALIDATION_DIARY_POST_CONTENT';
+    public static $ALREADY_RECORD = 'ALREADY_RECORD';
     // Calendar
     public static $VALIDATION_TITLE = 'VALIDATION_TITLE';
     public static $VALIDATION_CONTENT = 'VALIDATION_CONTENT';
