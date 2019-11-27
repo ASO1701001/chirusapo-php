@@ -1,6 +1,7 @@
 <?php
 use Application\Controllers\CalendarController;
 use Application\Controllers\ChildController;
+use Application\Controllers\ChildGrowthDiaryCommentController;
 use Application\Controllers\ChildGrowthDiaryController;
 use Application\Controllers\ChildGrowthHistoryController;
 use Application\Controllers\IndexController;
@@ -25,8 +26,9 @@ require_once __DIR__.'/../src/classes/controllers/GroupController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildController.php';
-require_once __DIR__ .'/../src/classes/controllers/ChildGrowthHistoryController.php';
+require_once __DIR__.'/../src/classes/controllers/ChildGrowthHistoryController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryController.php';
+require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/CalendarController.php';
 // manager
 require_once __DIR__.'/../src/classes/app/MasterManager.php';
@@ -132,10 +134,10 @@ $app->post('/child/growth/history/add', ChildGrowthHistoryController::class.':ad
 $app->get('/child/growth/diary/get', ChildGrowthDiaryController::class.':get_diary');
 $app->post('/child/growth/diary/post', ChildGrowthDiaryController::class.':post_diary');
 $app->post('/child/growth/diary/delete', ChildGrowthDiaryController::class.':delete_diary');
+$app->get('/child/growth/diary/comment/get', ChildGrowthDiaryCommentController::class.':get_comment');
+$app->post('/child/growth/diary/comment/post', ChildGrowthDiaryCommentController::class.':post_comment');
+$app->post('/child/growth/diary/comment/delete', ChildGrowthDiaryCommentController::class.':delete_comment');
 
-// $app->get('/child/growth/diary/comment/get', ChildDiaryController::class.':get_diary');
-// $app->post('/child/growth/diary/comment/post', ChildDiaryController::class.':post_diary');
-// $app->post('/child/growth/diary/comment/delete', ChildDiaryController::class.':delete_diary');
 // $app->get('/child/friend/get', ChildFriendController::class.':get_friend');
 // $app->post('/child/friend/add', ChildFriendController::class.':add_friend');
 // $app->post('/child/friend/edit', ChildFriendController::class.':edit_friend');
