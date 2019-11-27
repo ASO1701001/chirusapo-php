@@ -47,10 +47,13 @@ class ChildDiaryManager {
                         movie01_thumbnail, movie01_content, post_time
                 FROM view_child_growth_diary
                 WHERE child_id = :child_id";
-        $data = $db->fetch($sql, [
+        $data = $db->fetchAll($sql, [
             'child_id' => $child_id
         ]);
-        return self::switch_content_type($data);
+        foreach ($data as $key => $value) {
+            $data[$key] = self::switch_content_type($value);
+        }
+        return $data;
     }
 
     public static function delete_diary($diary_id) {
@@ -63,7 +66,7 @@ class ChildDiaryManager {
 
     public static function have_diary_id($diary_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT count(*) FROM child_growth_diary WHERE id = :diary_id";
+        $sql = "SELECT count(*) FROM child_growth_diary WHERE id = :diary_id AND delete_flg = false";
         $count = $db->fetchColumn($sql, [
             'diary_id' => $diary_id
         ]);

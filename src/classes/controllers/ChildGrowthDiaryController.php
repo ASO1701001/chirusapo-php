@@ -15,7 +15,7 @@ use Slim\Http\Response;
 
 class ChildGrowthDiaryController {
     public static function get_diary(Request $request, Response $response) {
-        $param = array_escape($request->getParsedBody());
+        $param = array_escape($request->getQueryParams());
 
         $token = isset($param['token']) ? $param['token'] : null;
         $child_id = isset($param['child_id']) ? $param['child_id'] : null;
@@ -307,22 +307,32 @@ class ChildGrowthDiaryController {
                     'data' => null
                 ];
             } else {
-                if (!ChildDiaryManager::have_diary_id_from_user_id($diary_id, $user_id)) {
+                if (!ChildDiaryManager::have_diary_id($diary_id)) {
                     $result = [
                         'status' => 400,
                         'message' => [
-                            Error::$UNAUTHORIZED_OPERATION
+                            Error::$UNKNOWN_POST
                         ],
                         'data' => null
                     ];
                 } else {
-                    ChildDiaryManager::delete_diary($diary_id);
+                    if (!ChildDiaryManager::have_diary_id_from_user_id($diary_id, $user_id)) {
+                        $result = [
+                            'status' => 400,
+                            'message' => [
+                                Error::$UNAUTHORIZED_OPERATION
+                            ],
+                            'data' => null
+                        ];
+                    } else {
+                        ChildDiaryManager::delete_diary($diary_id);
 
-                    $result = [
-                        'status' => 200,
-                        'message' => null,
-                        'data' => null
-                    ];
+                        $result = [
+                            'status' => 200,
+                            'message' => null,
+                            'data' => null
+                        ];
+                    }
                 }
             }
         }
