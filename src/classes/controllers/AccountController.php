@@ -474,11 +474,11 @@ class AccountController {
         $param = array_escape($request->getQueryParams());
 
         $token = isset($param['token']) ? $param['token'] : null;
-        $user_id = isset($param['target_user_id']) ? $param['target_user_id'] : null;
+        $target_user_id = isset($param['target_user_id']) ? $param['target_user_id'] : null;
 
         $error = [];
 
-        if (is_nulls($token, $user_id)) {
+        if (is_nulls($token, $target_user_id)) {
             $result = [
                 'status' => 400,
                 'message' => [
@@ -487,12 +487,12 @@ class AccountController {
                 'data' => null
             ];
         } else {
-            $user_id = TokenManager::get_user_id($token);
-            $target_user_id = AccountManager::get_user_id($user_id);
+            $inner_user_id = TokenManager::get_user_id($token);
+            $target_inner_user_id = AccountManager::get_user_id($target_user_id);
 
-            if (!$user_id || !$target_user_id) {
-                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
-                if (!$target_user_id) $error[] = Error::$UNKNOWN_TARGET_USER;
+            if (!$inner_user_id || !$target_inner_user_id) {
+                if (!$inner_user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$target_inner_user_id) $error[] = Error::$UNKNOWN_TARGET_USER;
 
                 $result = [
                     'status' => 400,
@@ -500,7 +500,7 @@ class AccountController {
                     'data' => null
                 ];
             } else {
-                $group_member = GroupManager::family_user_id($user_id, $target_user_id);
+                $group_member = GroupManager::family_user_id($inner_user_id, $target_inner_user_id);
 
                 if ($group_member) {
                     $result = [
@@ -511,8 +511,8 @@ class AccountController {
                         'data' => null
                     ];
                 } else {
-                    $user_info = AccountManager::member_user_info($target_user_id);
-                    $child_info = ChildManager::have_child_list($user_id);
+                    $user_info = AccountManager::member_user_info($target_inner_user_id);
+                    $child_info = ChildManager::have_child_list($target_inner_user_id);
 
                     $result = [
                         'status' => 200,

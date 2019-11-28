@@ -174,7 +174,7 @@ class GroupManager {
      */
     public static function family_user_id($user_id, $target_user_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT (count(group_id) = 0, false, true) result
+        $sql = "SELECT if(count(group_id) = 0, false, true) result
                 FROM group_user
                 WHERE user_id = :target_user_id
                 AND group_id IN (SELECT group_id FROM group_user WHERE user_id = :user_id)";
