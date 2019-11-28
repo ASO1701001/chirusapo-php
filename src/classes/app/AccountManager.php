@@ -52,7 +52,7 @@ class AccountManager {
         return false;
     }
 
-    /** 既にユーザーIDが登録されているか返す
+    /** 既にユーザーIDが登録されているか返す（退会済みのユーザーは含まない）
      * @param $user_id
      * @return bool
      */
@@ -63,6 +63,19 @@ class AccountManager {
             'user_id' => $user_id
         ]);
         return $data == 0 ? true : false;
+    }
+
+    /** 既にユーザーIDが登録されているか返す（退会済みのユーザーも含む）
+     * @param $user_id
+     * @return bool
+     */
+    public static function already_user_id_delete($user_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT count(*) FROM account_user WHERE user_id = :user_id AND resign_flg = false";
+        $data = $db->fetchColumn($sql, [
+            'user_id' => $user_id
+        ]);
+        return $data == 0 ? false : true;
     }
 
     /** 既にメールアドレスが登録されているか返す
@@ -254,7 +267,7 @@ EOF;
     }
 
     public static function get_user_id($user_id) {
-        if (self::already_user_id($user_id)) return false;
+        if (!self::already_user_id_delete($user_id)) return false;
         $db = new DatabaseManager();
         $sql = "SELECT id FROM account_user WHERE user_id = :user_id";
         $inner_user_id = $db->fetchColumn($sql, [
