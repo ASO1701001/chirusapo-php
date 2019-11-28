@@ -1,6 +1,7 @@
 <?php
 namespace Application\controllers;
 
+use Application\app\AccountManager;
 use Application\app\GroupManager;
 use Application\app\TokenManager;
 use Application\lib\Error;
@@ -8,9 +9,11 @@ use Application\lib\Validation;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+/*
 require_once __DIR__.'/../lib/Error.php';
 require_once __DIR__.'/../app/GroupManager.php';
 require_once __DIR__.'/../app/TokenManager.php';
+*/
 
 class GroupController {
     public static function group_join(Request $request, Response $response) {
@@ -291,21 +294,100 @@ class GroupController {
                     'data' => null
                 ];
             } else {
-                $validation_group_id = Validation::fire($group_id, Validation::$GROUP_ID);
-
-                if (!$validation_group_id) {
+                if (!GroupManager::already_belong_group($inner_group_id, $user_id)) {
                     $result = [
                         'status' => 400,
                         'message' => [
-                            Error::$VALIDATION_GROUP_ID
+                            Error::$UNREADY_BELONG_GROUP
                         ],
                         'data' => null
                     ];
                 } else {
-                    $already_belong_group = GroupManager::already_belong_group($inner_group_id, $user_id);
+                    GroupManager::withdrawal_group($inner_group_id, $user_id);
+                    $belong_group = GroupManager::belong_my_group($user_id);
 
-                    if ($already_belong_group) {
-                        GroupManager::withdrawal_group($inner_group_id, $user_id);
+                    $result = [
+                        'status' => 200,
+                        'message' => null,
+                        'data' => [
+                            'belong_group' => $belong_group
+                        ]
+                    ];
+                }
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
+    public static function group_withdrawal_force(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $group_id = isset($param['group_id']) ? $param['group_id'] : null;
+        $target_user_id = isset($param['target_user_id']) ? $param['target_user_id'] : null;
+
+        $error = [];
+
+        if (is_nulls($token, $group_id, $target_user_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+            $inner_group_id = GroupManager::get_group_id($group_id);
+
+            if (!$user_id || !$inner_group_id) {
+                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$inner_group_id) $error[] = Error::$UNKNOWN_GROUP;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                $already_belong_group = GroupManager::already_belong_group($inner_group_id, $user_id);
+
+                if ($already_belong_group) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$UNREADY_BELONG_GROUP
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    foreach ($target_user_id as $value) {
+                        $inner_user_id = AccountManager::get_user_id($value);
+
+                        if ($inner_user_id) {
+                            $error[] = Error::$UNKNOWN_USER;
+                        } else {
+                            $belong_group = GroupManager::already_belong_group($inner_group_id, $inner_user_id);
+
+                            if (!$belong_group) {
+                                $error[] = Error::$UNREADY_BELONG_GROUP;
+                            }
+                        }
+                    }
+
+                    if (count($error) !== 0) {
+                        $result = [
+                            'status' => 400,
+                            'message' => array_values(array_unique($error)),
+                            'data' => null
+                        ];
+                    } else {
+                        foreach ($target_user_id as $value) {
+                            $inner_user_id = AccountManager::get_user_id($value);
+                            GroupManager::withdrawal_group($inner_group_id, $inner_user_id);
+                        }
+
                         $belong_group = GroupManager::belong_my_group($user_id);
 
                         $result = [
@@ -315,15 +397,60 @@ class GroupController {
                                 'belong_group' => $belong_group
                             ]
                         ];
-                    } else {
-                        $result = [
-                            'status' => 400,
-                            'message' => [
-                                Error::$UNREADY_BELONG_GROUP
-                            ],
-                            'data' => null
-                        ];
                     }
+                }
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
+    public static function group_delete(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $group_id = isset($param['group_id']) ? $param['group_id'] : null;
+
+        $error = [];
+
+        if (is_nulls($token, $group_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+            $inner_group_id = GroupManager::get_group_id($group_id);
+
+            if (!$user_id || !$inner_group_id) {
+                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$inner_group_id) $error[] = Error::$UNKNOWN_GROUP;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                if (!GroupManager::already_belong_group($inner_group_id, $user_id)) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$UNREADY_BELONG_GROUP
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    GroupManager::delete_group($inner_group_id);
+
+                    $result = [
+                        'status' => 200,
+                        'message' => null,
+                        'data' => null
+                    ];
                 }
             }
         }
