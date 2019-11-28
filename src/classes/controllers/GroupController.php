@@ -351,9 +351,7 @@ class GroupController {
                     'data' => null
                 ];
             } else {
-                $already_belong_group = GroupManager::already_belong_group($inner_group_id, $user_id);
-
-                if ($already_belong_group) {
+                if (!GroupManager::already_belong_group($inner_group_id, $user_id)) {
                     $result = [
                         'status' => 400,
                         'message' => [
@@ -365,12 +363,10 @@ class GroupController {
                     foreach ($target_user_id as $value) {
                         $inner_user_id = AccountManager::get_user_id($value);
 
-                        if ($inner_user_id) {
+                        if (!$inner_user_id) {
                             $error[] = Error::$UNKNOWN_USER;
                         } else {
-                            $belong_group = GroupManager::already_belong_group($inner_group_id, $inner_user_id);
-
-                            if (!$belong_group) {
+                            if (!GroupManager::already_belong_group($inner_group_id, $inner_user_id)) {
                                 $error[] = Error::$UNREADY_BELONG_GROUP;
                             }
                         }
@@ -388,7 +384,7 @@ class GroupController {
                             GroupManager::withdrawal_group($inner_group_id, $inner_user_id);
                         }
 
-                        $belong_group = GroupManager::belong_my_group($user_id);
+                        $belong_group = GroupManager::belong_member($inner_group_id);
 
                         $result = [
                             'status' => 200,
