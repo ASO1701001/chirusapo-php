@@ -185,7 +185,6 @@ EOF;
         return [
             'user_id' => $data['user_id'],
             'user_name' => $data['user_name'],
-            'email' => $data['email'],
             'birthday' => $data['birthday'],
             'gender' => $data['gender'],
             'introduction' => !empty($data['introduction']) ? $data['introduction'] : null,
@@ -255,7 +254,7 @@ EOF;
     }
 
     public static function get_user_id($user_id) {
-        if (!self::already_user_id($user_id)) return false;
+        if (self::already_user_id($user_id)) return false;
         $db = new DatabaseManager();
         $sql = "SELECT id FROM account_user WHERE user_id = :user_id";
         $inner_user_id = $db->fetchColumn($sql, [
