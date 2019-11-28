@@ -174,7 +174,7 @@ class ChildDiaryManager {
             'diary_id' => $diary_id,
             'user_id' => $user_id,
             'comment' => $comment,
-            'post_time' => date('Y-m-d')
+            'post_time' => date('Y-m-d H:i:s')
         ]);
         return $comment_id;
     }
