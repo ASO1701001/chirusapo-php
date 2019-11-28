@@ -110,9 +110,8 @@ $app->post('/group/join', GroupController::class.':group_join');
 $app->get('/group/belong-group', GroupController::class.':belong_group');
 $app->get('/group/belong-member', GroupController::class.':belong_member');
 $app->post('/group/withdrawal', GroupController::class.':group_withdrawal');
-
-// TODO：グループ退会（強制）
-// TODO：グループ削除
+$app->post('/group/withdrawal-force', GroupController::class.':group_withdrawal_force');
+$app->post('/group/delete', GroupController::class.':group_delete');
 
 $app->get('/timeline/get', TimelineController::class.':get_timeline');
 $app->post('/timeline/post', TimelineController::class.':post_timeline');
