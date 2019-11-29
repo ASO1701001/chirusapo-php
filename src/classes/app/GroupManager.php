@@ -12,7 +12,7 @@ class GroupManager {
      */
     public static function belong_my_group($user_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT gm.group_id, gm.group_name
+        $sql = "SELECT gm.group_id, gm.group_name, gm.pin_code
                 FROM group_user gu
                 LEFT JOIN group_master gm
                 ON gm.id = gu.group_id
@@ -25,7 +25,8 @@ class GroupManager {
         foreach ($belong_group as $group) {
             $result[] = [
                 'group_id' => $group['group_id'],
-                'group_name' => $group['group_name']
+                'group_name' => $group['group_name'],
+                'pin_code' => $group['pin_code']
             ];
         }
         return $result;
