@@ -335,7 +335,7 @@ class AccountController {
                 }
 
                 if (!is_null($line_id)) {
-                    $validation_line_id = Validation::fire($line_id, Validation::$LINE_ID);
+                    $validation_line_id = empty($line_id) ? true : Validation::fire($line_id, Validation::$LINE_ID);
 
                     if (!$validation_line_id) {
                         $error[] = Error::$VALIDATION_LINE_ID;
@@ -344,7 +344,7 @@ class AccountController {
                 }
 
                 if (!is_null($introduction)) {
-                    $validation_introduction = Validation::fire($introduction, Validation::$INTRODUCTION);
+                    $validation_introduction = empty($introduction) ? true : Validation::fire($introduction, Validation::$INTRODUCTION);
 
                     if (!$validation_introduction) {
                         $error[] = Error::$VALIDATION_INTRODUCTION;
