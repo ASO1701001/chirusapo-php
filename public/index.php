@@ -7,6 +7,7 @@ use Application\Controllers\ChildGrowthHistoryController;
 use Application\Controllers\IndexController;
 use Application\Controllers\AccountController;
 use Application\controllers\MasterController;
+use Application\Controllers\ModelController;
 use Application\controllers\TimelineController;
 use Application\controllers\TimelineCommentController;
 use Application\controllers\TokenController;
@@ -30,6 +31,7 @@ require_once __DIR__.'/../src/classes/controllers/ChildGrowthHistoryController.p
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/CalendarController.php';
+require_once __DIR__.'/../src/classes/controllers/ModelController.php';
 // manager
 require_once __DIR__.'/../src/classes/app/MasterManager.php';
 require_once __DIR__.'/../src/classes/app/AccountManager.php';
@@ -39,6 +41,7 @@ require_once __DIR__.'/../src/classes/app/TimelineManager.php';
 require_once __DIR__.'/../src/classes/app/ChildManager.php';
 require_once __DIR__.'/../src/classes/app/ChildDiaryManager.php';
 require_once __DIR__.'/../src/classes/app/CalendarManager.php';
+require_once __DIR__.'/../src/classes/app/ModelManager.php';
 // lib
 require_once __DIR__.'/../src/classes/lib/DatabaseManager.php';
 require_once __DIR__.'/../src/classes/lib/Error.php';
@@ -143,14 +146,18 @@ $app->post('/child/growth/diary/comment/delete', ChildGrowthDiaryCommentControll
 // $app->post('/child/friend/delete', ChildFriendController::class.':delete_friend');
 // $app->post('/child/friend/correlate', ChildFriendController::class.':correlate_friend');
 
-// TODO：アルバム表示
-// TODO：アルバムアップロード
+// $app->get('/album/get', AlbumController::class.':get_album');
+// $app->post('/album/upload', AlbumController::class.':upload_album');
 
 $app->get('/calendar/get', CalendarController::class.':get_calendar');
 $app->get('/calendar/search', CalendarController::class.':search_calendar');
 $app->post('/calendar/add', CalendarController::class.':add_calendar');
 $app->post('/calendar/edit', CalendarController::class.':edit_calendar');
 $app->post('/calendar/delete', CalendarController::class.':delete_calendar');
+
+$app->get('/model/get', ModelController::class.':get_model');
+$app->post('/model/add/child', ModelController::class.':add_child');
+$app->post('/model/add/clothes', ModelController::class.':add_clothes');
 
 try {
     $app->run();
