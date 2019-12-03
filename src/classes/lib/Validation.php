@@ -48,6 +48,7 @@ class Validation {
             case self::$EMAIL:
                 $regex = '/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/';
                 break;
+            case self::$GROUP_ID:
             case self::$PASSWORD:
                 $regex = '/^[a-zA-Z0-9-_]{5,30}$/';
                 break;
@@ -66,11 +67,8 @@ class Validation {
                 break;
             case self::$INTRODUCTION:
                 return mb_strlen($value) <= 250 ? true : false;
-                // $regex = '/^.{0,250}$/';
                 break;
-            case self::$GROUP_ID:
-                $regex = '/^[a-zA-Z0-9-_]{5,30}$/';
-                break;
+            case self::$CALENDAR_TITLE:
             case self::$GROUP_NAME:
                 $regex = '/^.{1,30}$/';
                 break;
@@ -81,7 +79,6 @@ class Validation {
             case self::$TIMELINE_POST_COMMENT:
                 $regex = '/^.{1,250}$/';
                 break;
-
             case self::$BODY_HEIGHT:
                 $regex = '/^[1-9][0-9]|1[0-9]{2}|200$/';
                 break;
@@ -103,9 +100,6 @@ class Validation {
             case self::$VACCINATION:
             case self::$ALLERGY:
                 $regex = '/^.{1,100}$/';
-                break;
-            case self::$CALENDAR_TITLE:
-                $regex = '/^.{1,30}$/';
                 break;
             case self::$CALENDAR_CONTENT:
                 return mb_strlen($value) <= 200 ? true : false;
