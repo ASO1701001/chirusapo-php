@@ -6,19 +6,19 @@ use Application\lib\DatabaseManager;
 class ModelManager {
     public static function get_model($group_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT * FROM model_child WHERE group_id = :group_id";
+        $sql = "SELECT file_name FROM model_child WHERE group_id = :group_id";
         $model_child = $db->fetchAll($sql, [
             'group_id' => $group_id
         ]);
         foreach ($model_child as $key => $value) {
-            $model_child[$key] = 'https://storage.googleapis.com/chirusapo/model/child'.$value;
+            $model_child[$key] = 'https://storage.googleapis.com/chirusapo/model/child/'.$value['file_name'];
         }
-        $sql = "SELECT * FROM model_clothes WHERE group_id = :group_id";
+        $sql = "SELECT file_name FROM model_clothes WHERE group_id = :group_id";
         $model_clothes = $db->fetchAll($sql, [
             'group_id' => $group_id
         ]);
         foreach ($model_clothes as $key => $value) {
-            $model_clothes[$key] = 'https://storage.googleapis.com/chirusapo/model/clothes'.$value;
+            $model_clothes[$key] = 'https://storage.googleapis.com/chirusapo/model/clothes/'.$value['file_name'];
         }
         return [
             'model_child' => $model_child,

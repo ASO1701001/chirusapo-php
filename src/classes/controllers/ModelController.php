@@ -69,7 +69,7 @@ class ModelController {
 
         $token = isset($param['token']) ? $param['token'] : null;
         $group_id = isset($param['group_id']) ? $param['group_id'] : null;
-        $model_image = isset($file['model']) ? $param['model'] : null;
+        $model_image = isset($file['model']) ? $file['model'] : null;
 
         $error = [];
 
@@ -132,7 +132,7 @@ class ModelController {
                             'status' => 200,
                             'message' => null,
                             'data' => [
-                                'model_file_name' => $model_file_name
+                                'model_file_name' => 'https://storage.googleapis.com/chirusapo/model/child/'.$model_file_name
                             ]
                         ];
                     }
@@ -149,7 +149,7 @@ class ModelController {
 
         $token = isset($param['token']) ? $param['token'] : null;
         $group_id = isset($param['group_id']) ? $param['group_id'] : null;
-        $model_image = isset($file['model']) ? $param['model'] : null;
+        $model_image = isset($file['model']) ? $file['model'] : null;
 
         $error = [];
 
@@ -206,13 +206,13 @@ class ModelController {
                             'data' => null
                         ];
                     } else {
-                        ModelManager::add_child_model($inner_group_id, $model_file_name);
+                        ModelManager::add_clothes_model($inner_group_id, $model_file_name);
 
                         $result = [
                             'status' => 200,
                             'message' => null,
                             'data' => [
-                                'model_file_name' => $model_file_name
+                                'model_file_name' => 'https://storage.googleapis.com/chirusapo/model/clothes/'.$model_file_name
                             ]
                         ];
                     }
