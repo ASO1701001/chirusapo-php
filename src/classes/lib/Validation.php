@@ -65,7 +65,8 @@ class Validation {
                 $regex = '/^[a-zA-Z0-9-_.]{4,20}$/';
                 break;
             case self::$INTRODUCTION:
-                $regex = '/^.{0,250}$/';
+                return mb_strlen($value) <= 250 ? true : false;
+                // $regex = '/^.{0,250}$/';
                 break;
             case self::$GROUP_ID:
                 $regex = '/^[a-zA-Z0-9-_]{5,30}$/';
