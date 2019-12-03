@@ -502,7 +502,7 @@ class AccountController {
             } else {
                 $group_member = GroupManager::family_user_id($inner_user_id, $target_inner_user_id);
 
-                if ($group_member) {
+                if (!$group_member) {
                     $result = [
                         'status' => 400,
                         'message' => [
