@@ -8,6 +8,7 @@ use Application\Controllers\IndexController;
 use Application\Controllers\AccountController;
 use Application\controllers\MasterController;
 use Application\Controllers\ModelController;
+use Application\Controllers\RemoveBgController;
 use Application\controllers\TimelineController;
 use Application\controllers\TimelineCommentController;
 use Application\controllers\TokenController;
@@ -32,6 +33,7 @@ require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryController.php
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/CalendarController.php';
 require_once __DIR__.'/../src/classes/controllers/ModelController.php';
+require_once __DIR__.'/../src/classes/controllers/RemoveBgController.php';
 // manager
 require_once __DIR__.'/../src/classes/app/MasterManager.php';
 require_once __DIR__.'/../src/classes/app/AccountManager.php';
@@ -49,6 +51,7 @@ require_once __DIR__.'/../src/classes/lib/Validation.php';
 require_once __DIR__.'/../src/classes/lib/Mailer.php';
 require_once __DIR__.'/../src/classes/lib/GoogleCloudStorage.php';
 require_once __DIR__.'/../src/classes/lib/FFMpegManager.php';
+require_once __DIR__.'/../src/classes/lib/RemoveBg.php';
 // etc.
 require_once __DIR__.'/../src/classes/app/functions.php';
 
@@ -158,6 +161,8 @@ $app->post('/calendar/delete', CalendarController::class.':delete_calendar');
 $app->get('/model/get', ModelController::class.':get_model');
 $app->post('/model/add/child', ModelController::class.':add_child');
 $app->post('/model/add/clothes', ModelController::class.':add_clothes');
+
+$app->post('/external-api/remove.bg/remove', RemoveBgController::class.':bg_remove');
 
 try {
     $app->run();
