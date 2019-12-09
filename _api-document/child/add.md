@@ -32,6 +32,7 @@
              "user_id": "*user_id*",
              "user_name": "*user_name*",
              "birthday": "*birthday*",
+             "age": "*age*",
              "gender": "*gender*",
              "blood_type": "*blood_type*",
              "user_icon": "*user_icon*",
