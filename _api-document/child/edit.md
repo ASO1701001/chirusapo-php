@@ -20,7 +20,7 @@
     "status": 200,
     "message": null,
     "data": {
-        "timeline_data": {
+        "child_info": {
              "user_id": "*user_id*",
              "user_name": "*user_name*",
              "birthday": "*birthday*",
