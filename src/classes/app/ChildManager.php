@@ -107,7 +107,7 @@ class ChildManager {
     public static function get_child_list($group_id) {
         $db = new DatabaseManager();
         $sql = "SELECT
-                       ac.id, ac.user_id, ac.user_name, ac.birthday, ac.gender, ac.blood_type, ac.icon user_icon,
+                       ac.id, ac.user_id, ac.user_name, ac.birthday, ac.age, ac.gender, ac.blood_type, ac.icon user_icon,
                        cgh.body_height, cgh.body_weight, cgh.clothes_size, cgh.shoes_size
                 FROM account_child ac
                 LEFT JOIN (
@@ -149,7 +149,7 @@ class ChildManager {
     public static function get_child($child_id) {
         $db = new DatabaseManager();
         $sql = "SELECT
-                       ac.id, ac.user_id, ac.user_name, ac.birthday, ac.gender, ac.blood_type, ac.icon user_icon,
+                       ac.id, ac.user_id, ac.user_name, ac.birthday, ac.age, ac.gender, ac.blood_type, ac.icon user_icon,
                        cgh.body_height, cgh.body_weight, cgh.clothes_size, cgh.shoes_size
                 FROM account_child ac
                 LEFT JOIN (
