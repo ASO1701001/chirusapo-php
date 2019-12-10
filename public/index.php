@@ -113,6 +113,7 @@ $app->post('/token/verify-token', TokenController::class.':verify_token');
 
 $app->post('/group/create', GroupController::class.':group_create');
 $app->post('/group/join', GroupController::class.':group_join');
+$app->post('/group/edit', GroupController::class.':group_edit');
 $app->get('/group/belong-group', GroupController::class.':belong_group');
 $app->get('/group/belong-member', GroupController::class.':belong_member');
 $app->post('/group/withdrawal', GroupController::class.':group_withdrawal');

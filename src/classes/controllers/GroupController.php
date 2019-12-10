@@ -384,13 +384,13 @@ class GroupController {
                             GroupManager::withdrawal_group($inner_group_id, $inner_user_id);
                         }
 
-                        $belong_group = GroupManager::belong_member($inner_group_id);
+                        $belong_member = GroupManager::belong_member($inner_group_id);
 
                         $result = [
                             'status' => 200,
                             'message' => null,
                             'data' => [
-                                'belong_group' => $belong_group
+                                'belong_member' => $belong_member
                             ]
                         ];
                     }
@@ -447,6 +447,78 @@ class GroupController {
                         'message' => null,
                         'data' => null
                     ];
+                }
+            }
+        }
+
+        return $response->withJson($result);
+    }
+
+    public static function group_edit(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $group_id = isset($param['group_id']) ? $param['group_id'] : null;
+        $group_name = isset($param['group_name']) ? $param['group_name'] : null;
+        $pin_code = isset($param['pin_code']) ? $param['pin_code'] : null;
+
+        $error = [];
+
+        if (is_nulls($token, $group_id, $group_name, $pin_code)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+            $inner_group_id = GroupManager::get_group_id($group_id);
+
+            if (!$user_id || !$inner_group_id) {
+                if (!$user_id) $error[] = Error::$UNKNOWN_TOKEN;
+                if (!$inner_group_id) $error[] = Error::$UNKNOWN_GROUP;
+
+                $result = [
+                    'status' => 400,
+                    'message' => $error,
+                    'data' => null
+                ];
+            } else {
+                if (!GroupManager::already_belong_group($inner_group_id, $user_id)) {
+                    $result = [
+                        'status' => 400,
+                        'message' => [
+                            Error::$UNREADY_BELONG_GROUP
+                        ],
+                        'data' => null
+                    ];
+                } else {
+                    $validation_group_name = Validation::fire($group_name, Validation::$GROUP_NAME);
+                    $validation_pin_code = Validation::fire($pin_code, Validation::$PIN_CODE);
+
+                    if (!$validation_group_name || !$validation_pin_code) {
+                        if (!$validation_group_name) $error[] = Error::$VALIDATION_GROUP_NAME;
+                        if (!$validation_pin_code) $error[] = Error::$VALIDATION_PIN_CODE;
+
+                        $result = [
+                            'status' => 400,
+                            'message' => $error,
+                            'data' => null
+                        ];
+                    } else {
+                        GroupManager::edit_group($inner_group_id, $group_name, $pin_code);
+                        $group_info = GroupManager::get_group($group_id);
+
+                        $result = [
+                            'status' => 200,
+                            'message' => null,
+                            'data' => [
+                                'group_info' => $group_info
+                            ]
+                        ];
+                    }
                 }
             }
         }

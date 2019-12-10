@@ -185,4 +185,23 @@ class GroupManager {
         ]);
         return $result;
     }
+
+    public static function edit_group($group_id, $group_name, $pin_code) {
+        $db = new DatabaseManager();
+        $sql = "UPDATE group_master SET group_name = :group_name, pin_code = :pin_code WHERE id = :group_id";
+        $db->execute($sql, [
+            'group_name' => $group_name,
+            'pin_code'=> $pin_code,
+            'group_id' => $group_id
+        ]);
+    }
+
+    public static function get_group($group_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT group_id, group_name, pin_code FROM group_master WHERE group_id = :group_id";
+        $data = $db->fetch($sql, [
+            'group_id' => $group_id
+        ]);
+        return $data;
+    }
 }
