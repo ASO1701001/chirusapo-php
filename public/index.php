@@ -1,4 +1,5 @@
 <?php
+use Application\Controllers\AlbumController;
 use Application\Controllers\CalendarController;
 use Application\Controllers\ChildController;
 use Application\Controllers\ChildGrowthDiaryCommentController;
@@ -31,6 +32,7 @@ require_once __DIR__.'/../src/classes/controllers/ChildController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthHistoryController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryCommentController.php';
+require_once __DIR__.'/../src/classes/controllers/AlbumController.php';
 require_once __DIR__.'/../src/classes/controllers/CalendarController.php';
 require_once __DIR__.'/../src/classes/controllers/ModelController.php';
 require_once __DIR__.'/../src/classes/controllers/RemoveBgController.php';
@@ -42,6 +44,7 @@ require_once __DIR__.'/../src/classes/app/GroupManager.php';
 require_once __DIR__.'/../src/classes/app/TimelineManager.php';
 require_once __DIR__.'/../src/classes/app/ChildManager.php';
 require_once __DIR__.'/../src/classes/app/ChildDiaryManager.php';
+require_once __DIR__.'/../src/classes/app/AlbumManager.php';
 require_once __DIR__.'/../src/classes/app/CalendarManager.php';
 require_once __DIR__.'/../src/classes/app/ModelManager.php';
 // lib
@@ -150,8 +153,8 @@ $app->post('/child/growth/diary/comment/delete', ChildGrowthDiaryCommentControll
 // $app->post('/child/friend/delete', ChildFriendController::class.':delete_friend');
 // $app->post('/child/friend/correlate', ChildFriendController::class.':correlate_friend');
 
-// $app->get('/album/get', AlbumController::class.':get_album');
-// $app->post('/album/upload', AlbumController::class.':upload_album');
+$app->get('/album/get', AlbumController::class.':get_album');
+$app->post('/album/upload', AlbumController::class.':upload_album');
 
 $app->get('/calendar/get', CalendarController::class.':get_calendar');
 $app->get('/calendar/search', CalendarController::class.':search_calendar');
