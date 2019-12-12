@@ -41,7 +41,8 @@ class GroupManager {
         $sql = "SELECT au.user_id, au.user_name, au.icon_file_name
                 FROM group_user gu
                 LEFT JOIN account_user au ON gu.user_id = au.id
-                WHERE gu.group_id = :group_id";
+                WHERE gu.group_id = :group_id
+                AND au.resign_flg = false";
         $data = $db->fetchAll($sql, [
             'group_id' => $group_id
         ]);
