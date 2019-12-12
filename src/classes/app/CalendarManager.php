@@ -25,7 +25,7 @@ class CalendarManager {
 
     public static function list_calendar($group_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT ca.id, ac.user_id, ca.title, ca.content, ca.date, ca.year, ca.month, ca.day, ca.remind_flg
+        $sql = "SELECT ca.id, ac.user_id, ac.user_name, ca.title, ca.content, ca.date, ca.year, ca.month, ca.day, ca.remind_flg
                 FROM calendar_data ca
                 LEFT JOIN account_user ac ON ac.id = ca.user_id
                 WHERE group_id = :group_id
@@ -35,12 +35,16 @@ class CalendarManager {
         ]);
         $result = [];
         foreach ($data as $item) {
-            $result[$item['year']][$item['month']][$item['day']][] = [
+            $result[] = [
                 'id' => $item['id'],
                 'user_id' => $item['user_id'],
+                'user_name' => $item['user_name'],
                 'title' => $item['title'],
                 'content' => $item['content'],
                 'date' => $item['date'],
+                'year' => $item['year'],
+                'month' => $item['month'],
+                'day' => $item['day'],
                 'remind_flg' => $item['remind_flg'] ? true : false
             ];
         }
@@ -49,7 +53,7 @@ class CalendarManager {
 
     public static function get_calendar($calendar_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT ca.id, ac.user_id, ca.title, ca.content, ca.date, ca.year, ca.month, ca.day, ca.remind_flg
+        $sql = "SELECT ca.id, ac.user_id, ac.user_name, ca.title, ca.content, ca.date, ca.year, ca.month, ca.day, ca.remind_flg
                 FROM calendar_data ca
                 LEFT JOIN account_user ac ON ac.id = ca.user_id
                 WHERE ca.id = :calendar_id
@@ -60,9 +64,13 @@ class CalendarManager {
         return [
             'id' => $data['id'],
             'user_id' => $data['user_id'],
+            'user_name' => $data['user_name'],
             'title' => $data['title'],
             'content' => $data['content'],
             'date' => $data['date'],
+            'year' => $data['year'],
+            'month' => $data['month'],
+            'day' => $data['day'],
             'remind_flg' => $data['remind_flg'] ? true : false
         ];
     }
