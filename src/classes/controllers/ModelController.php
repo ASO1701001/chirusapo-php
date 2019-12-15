@@ -231,7 +231,7 @@ class ModelController {
         $token = isset($param['token']) ? $param['token'] : null;
         $group_id = isset($param['group_id']) ? $param['group_id'] : null;
         $api_key = isset($param['api_key']) ? $param['api_key'] : null;
-        $model_image = isset($file['model']) ? $file['model'] : null;
+        $model_image = isset($file['image']) ? $file['image'] : null;
 
         $error = [];
 
@@ -321,7 +321,7 @@ class ModelController {
         $token = isset($param['token']) ? $param['token'] : null;
         $group_id = isset($param['group_id']) ? $param['group_id'] : null;
         $api_key = isset($param['api_key']) ? $param['api_key'] : null;
-        $model_image = isset($file['model']) ? $file['model'] : null;
+        $model_image = isset($file['image']) ? $file['image'] : null;
 
         $error = [];
 
