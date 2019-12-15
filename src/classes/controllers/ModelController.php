@@ -293,7 +293,7 @@ class ModelController {
                                     'status' => 200,
                                     'message' => null,
                                     'data' => [
-                                        'remove_image' => 'https://storage.googleapis.com/chirusapo/model/child/'.$file_name
+                                        'model_path' => 'https://storage.googleapis.com/chirusapo/model/child/'.$file_name
                                     ]
                                 ];
                             } else {
@@ -383,7 +383,7 @@ class ModelController {
                                     'status' => 200,
                                     'message' => null,
                                     'data' => [
-                                        'remove_image' => 'https://storage.googleapis.com/chirusapo/model/clothes/'.$file_name
+                                        'model_path' => 'https://storage.googleapis.com/chirusapo/model/clothes/'.$file_name
                                     ]
                                 ];
                             } else {
