@@ -165,6 +165,8 @@ $app->post('/calendar/delete', CalendarController::class.':delete_calendar');
 $app->get('/model/get', ModelController::class.':get_model');
 $app->post('/model/add/child', ModelController::class.':add_child');
 $app->post('/model/add/clothes', ModelController::class.':add_clothes');
+$app->post('/model/add/child/remove', ModelController::class.':add_child_remove');
+$app->post('/model/add/clothes/remove', ModelController::class.':add_clothes_remove');
 
 $app->post('/external-api/remove.bg/remove', RemoveBgController::class.':bg_remove');
 

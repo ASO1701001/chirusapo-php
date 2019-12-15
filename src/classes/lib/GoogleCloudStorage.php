@@ -92,4 +92,23 @@ class GoogleCloudStorage {
                 break;
         }
     }
+
+    public static function copy($object_name, $old_path, $new_path) {
+        try {
+            $client = new StorageClient([
+                'projectId' => self::projectId,
+                'keyFile' => json_decode(
+                    file_get_contents(self::authFile, true), true
+                )
+            ]);
+            $bucket = $client->bucket(self::bucketName);
+            $object = $bucket->object($old_path.$object_name);
+            $object->copy(self::bucketName, [
+                'name' => $new_path.$object_name
+            ]);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }
