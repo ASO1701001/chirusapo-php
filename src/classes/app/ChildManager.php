@@ -365,6 +365,6 @@ class ChildManager {
             'child_id' => $child_id,
             'add_date' => $add_date
         ]);
-        return $result == 0 ? false : true;
+        return $result == 0 ? true : false;
     }
 }
