@@ -83,7 +83,7 @@ class ChildGrowthHistoryController {
                     } else {
                         $inner_child_id = ChildManager::child_id_to_inner_child_id($child_id);
 
-                        if (!ChildManager::already_record_growth_history($child_id, $add_date)) {
+                        if (!ChildManager::already_record_growth_history($inner_child_id, $add_date)) {
                             $result = [
                                 'status' => 400,
                                 'message' => [
