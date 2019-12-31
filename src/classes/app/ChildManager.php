@@ -367,4 +367,22 @@ class ChildManager {
         ]);
         return $result == 0 ? true : false;
     }
+
+    /** 子どものグループIDに所属しているか判定
+     * @param $user_id
+     * @param $child_id
+     * @return bool
+     */
+    public static function have_child($user_id, $child_id) {
+        $db = new DatabaseManager();
+        $sql = "SELECT count(*)
+                FROM group_user
+                WHERE user_id = :user_id
+                AND group_id = (SELECT group_id FROM account_child WHERE id = :child_id)";
+        $result = $db->fetchColumn($sql, [
+            'user_id' => $user_id,
+            'child_id' => $child_id
+        ]);
+        return $result == 0 ? false : true;
+    }
 }

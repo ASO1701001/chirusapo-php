@@ -36,6 +36,8 @@ class Validation {
     public static $DIARY_POST_CONTENT = 'diary_post_content';
     public static $DIARY_POST_COMMENT = 'diary_post_comment';
 
+    public static $FRIEND_MEMO = 'friend_memo';
+
     public static function fire($value, string $rule) {
         $regex = '';
         switch ($rule) {
@@ -102,6 +104,7 @@ class Validation {
                 $regex = '/^.{1,100}$/';
                 break;
             case self::$CALENDAR_CONTENT:
+            case self::$FRIEND_MEMO:
                 return mb_strlen($value) <= 200 ? true : false;
                 break;
             case self::$CALENDAR_REMIND_FLG:

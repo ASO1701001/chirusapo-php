@@ -2,6 +2,7 @@
 use Application\Controllers\AlbumController;
 use Application\Controllers\CalendarController;
 use Application\Controllers\ChildController;
+use Application\Controllers\ChildFriendController;
 use Application\Controllers\ChildGrowthDiaryCommentController;
 use Application\Controllers\ChildGrowthDiaryController;
 use Application\Controllers\ChildGrowthHistoryController;
@@ -29,6 +30,7 @@ require_once __DIR__.'/../src/classes/controllers/GroupController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildController.php';
+require_once __DIR__.'/../src/classes/controllers/ChildFriendController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthHistoryController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryCommentController.php';
@@ -43,6 +45,7 @@ require_once __DIR__.'/../src/classes/app/TokenManager.php';
 require_once __DIR__.'/../src/classes/app/GroupManager.php';
 require_once __DIR__.'/../src/classes/app/TimelineManager.php';
 require_once __DIR__.'/../src/classes/app/ChildManager.php';
+require_once __DIR__.'/../src/classes/app/ChildFriendManager.php';
 require_once __DIR__.'/../src/classes/app/ChildDiaryManager.php';
 require_once __DIR__.'/../src/classes/app/AlbumManager.php';
 require_once __DIR__.'/../src/classes/app/CalendarManager.php';
@@ -147,11 +150,11 @@ $app->get('/child/growth/diary/comment/get', ChildGrowthDiaryCommentController::
 $app->post('/child/growth/diary/comment/post', ChildGrowthDiaryCommentController::class.':post_comment');
 $app->post('/child/growth/diary/comment/delete', ChildGrowthDiaryCommentController::class.':delete_comment');
 
-// $app->get('/child/friend/get', ChildFriendController::class.':get_friend');
-// $app->post('/child/friend/add', ChildFriendController::class.':add_friend');
-// $app->post('/child/friend/edit', ChildFriendController::class.':edit_friend');
-// $app->post('/child/friend/delete', ChildFriendController::class.':delete_friend');
-// $app->post('/child/friend/correlate', ChildFriendController::class.':correlate_friend');
+$app->get('/child/friend/get', ChildFriendController::class.':get_friend');
+$app->post('/child/friend/add', ChildFriendController::class.':add_friend');
+$app->post('/child/friend/edit', ChildFriendController::class.':edit_friend');
+$app->post('/child/friend/delete', ChildFriendController::class.':delete_friend');
+$app->get('/child/friend/autofill', ChildFriendController::class.':autofill_friend');
 
 $app->get('/album/get', AlbumController::class.':get_album');
 $app->post('/album/upload', AlbumController::class.':upload_album');
