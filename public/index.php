@@ -2,7 +2,9 @@
 use Application\Controllers\AlbumController;
 use Application\Controllers\CalendarController;
 use Application\Controllers\ChildController;
+use Application\Controllers\ChildFaceController;
 use Application\Controllers\ChildFriendController;
+use Application\Controllers\ChildFriendFaceController;
 use Application\Controllers\ChildGrowthDiaryCommentController;
 use Application\Controllers\ChildGrowthDiaryController;
 use Application\Controllers\ChildGrowthHistoryController;
@@ -30,7 +32,9 @@ require_once __DIR__.'/../src/classes/controllers/GroupController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineController.php';
 require_once __DIR__.'/../src/classes/controllers/TimelineCommentController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildController.php';
+require_once __DIR__.'/../src/classes/controllers/ChildFaceController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildFriendController.php';
+require_once __DIR__.'/../src/classes/controllers/ChildFriendFaceController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthHistoryController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryController.php';
 require_once __DIR__.'/../src/classes/controllers/ChildGrowthDiaryCommentController.php';
@@ -45,7 +49,9 @@ require_once __DIR__.'/../src/classes/app/TokenManager.php';
 require_once __DIR__.'/../src/classes/app/GroupManager.php';
 require_once __DIR__.'/../src/classes/app/TimelineManager.php';
 require_once __DIR__.'/../src/classes/app/ChildManager.php';
+require_once __DIR__.'/../src/classes/app/ChildFaceManager.php';
 require_once __DIR__.'/../src/classes/app/ChildFriendManager.php';
+require_once __DIR__.'/../src/classes/app/ChildFriendFaceManager.php';
 require_once __DIR__.'/../src/classes/app/ChildDiaryManager.php';
 require_once __DIR__.'/../src/classes/app/AlbumManager.php';
 require_once __DIR__.'/../src/classes/app/CalendarManager.php';
@@ -150,11 +156,19 @@ $app->get('/child/growth/diary/comment/get', ChildGrowthDiaryCommentController::
 $app->post('/child/growth/diary/comment/post', ChildGrowthDiaryCommentController::class.':post_comment');
 $app->post('/child/growth/diary/comment/delete', ChildGrowthDiaryCommentController::class.':delete_comment');
 
+$app->get('/child/face/get', ChildFaceController::class.':get_face');
+$app->post('/child/face/add', ChildFaceController::class.':add_face');
+$app->post('/child/face/delete', ChildFaceController::class.':delete_face');
+
 $app->get('/child/friend/get', ChildFriendController::class.':get_friend');
 $app->post('/child/friend/add', ChildFriendController::class.':add_friend');
 $app->post('/child/friend/edit', ChildFriendController::class.':edit_friend');
 $app->post('/child/friend/delete', ChildFriendController::class.':delete_friend');
 $app->get('/child/friend/autofill', ChildFriendController::class.':autofill_friend');
+
+$app->get('/child/friend/face/get', ChildFriendFaceController::class.':get_face');
+$app->post('/child/friend/face/add', ChildFriendFaceController::class.':add_face');
+$app->post('/child/friend/face/delete', ChildFriendFaceController::class.':delete_face');
 
 $app->get('/album/get', AlbumController::class.':get_album');
 $app->post('/album/upload', AlbumController::class.':upload_album');

@@ -67,4 +67,5 @@ class Error {
     public static $GENERATE_MODEL_FAILED = 'GENERATE_MODEL_FAILED';
     public static $VALIDATION_FRIEND_MEMO = 'VALIDATION_FRIEND_MEMO';
     public static $UNKNOWN_FRIEND = 'UNKNOWN_FRIEND';
+    public static $UNKNOWN_FACE = 'UNKNOWN_FACE';
 }
