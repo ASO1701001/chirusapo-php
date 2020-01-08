@@ -35,7 +35,7 @@ class ChildController {
 
         if (is_nulls(
             $token, $group_id, $user_id, $user_name, $birthday, $age, $gender, $blood_type,
-            $body_height, $body_weight, $clothes_size, $shoes_size, $user_icon)) {
+            $body_height, $body_weight, $clothes_size, $shoes_size)) {
             $result = [
                 'status' => 400,
                 'message' => [
