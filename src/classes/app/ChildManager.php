@@ -12,12 +12,11 @@ class ChildManager {
      * @param $age
      * @param $gender
      * @param $blood_type
-     * @param $user_icon
      * @return string
      */
-    public static function add_child($group_id, $user_id, $user_name, $birthday, $age, $gender, $blood_type, $user_icon) {
+    public static function add_child($group_id, $user_id, $user_name, $birthday, $age, $gender, $blood_type) {
         $db = new DatabaseManager();
-        $sql = "INSERT INTO account_child (group_id, user_id, user_name, birthday, age, gender, blood_type, icon) VALUES (:group_id, :user_id, :user_name, :birthday, :age, :gender, :blood_type, :user_icon)";
+        $sql = "INSERT INTO account_child (group_id, user_id, user_name, birthday, age, gender, blood_type) VALUES (:group_id, :user_id, :user_name, :birthday, :age, :gender, :blood_type)";
         $child_id = $db->insert($sql, [
             'group_id' => $group_id,
             'user_id' => $user_id,
@@ -25,8 +24,7 @@ class ChildManager {
             'birthday' => $birthday,
             'age' => $age,
             'gender' => $gender,
-            'blood_type' => $blood_type,
-            'user_icon' => $user_icon
+            'blood_type' => $blood_type
         ]);
         return $child_id;
     }
@@ -107,7 +105,7 @@ class ChildManager {
     public static function get_child_list($group_id) {
         $db = new DatabaseManager();
         $sql = "SELECT
-                       ac.id, ac.user_id, ac.user_name, ac.birthday, ac.age, ac.gender, ac.blood_type, ac.icon user_icon,
+                       ac.id, ac.user_id, ac.user_name, ac.birthday, ac.age, ac.gender, ac.blood_type,
                        cgh.body_height, cgh.body_weight, cgh.clothes_size, cgh.shoes_size
                 FROM account_child ac
                 LEFT JOIN (
@@ -127,8 +125,6 @@ class ChildManager {
             'group_id' => $group_id
         ]);
         foreach ($data as $key => $value) {
-            $data[$key]['user_icon'] = 'https://storage.googleapis.com/chirusapo/child-user-icon/'.$value['user_icon'];
-
             $sql = "SELECT id, vaccine_name, visit_date FROM child_vaccination WHERE child_id = :child_id";
             $vaccination_list = $db->fetchAll($sql, [
                 'child_id' => $value['id']
@@ -149,7 +145,7 @@ class ChildManager {
     public static function get_child($child_id) {
         $db = new DatabaseManager();
         $sql = "SELECT
-                       ac.id, ac.user_id, ac.user_name, ac.birthday, ac.age, ac.gender, ac.blood_type, ac.icon user_icon,
+                       ac.id, ac.user_id, ac.user_name, ac.birthday, ac.age, ac.gender, ac.blood_type,
                        cgh.body_height, cgh.body_weight, cgh.clothes_size, cgh.shoes_size
                 FROM account_child ac
                 LEFT JOIN (
@@ -168,8 +164,6 @@ class ChildManager {
         $data = $db->fetch($sql, [
             'child_id' => $child_id
         ]);
-
-        $data['user_icon'] = 'https://storage.googleapis.com/chirusapo/child-user-icon/'.$data['user_icon'];
 
         $sql = "SELECT id, vaccine_name, visit_date FROM child_vaccination WHERE child_id = :child_id";
         $vaccination_list = $db->fetchAll($sql, [
@@ -291,15 +285,6 @@ class ChildManager {
             'user_id' => $user_id
         ]);
         return $count == 0 ? false : true;
-    }
-
-    public static function update_user_icon($child_id, $icon_file_name) {
-        $db = new DatabaseManager();
-        $sql = "UPDATE account_child SET icon = :icon_file_name WHERE id = :child_id";
-        $db->execute($sql, [
-            'icon_file_name' => $icon_file_name,
-            'child_id' => $child_id
-        ]);
     }
 
     public static function get_growth_history($child_id) {

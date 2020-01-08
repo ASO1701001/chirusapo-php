@@ -29,7 +29,6 @@ class ChildController {
         $shoes_size = isset($param['shoes_size']) ? $param['shoes_size'] : null;
         $vaccination = isset($param['vaccination']) ? $param['vaccination'] : null;
         $allergy = isset($param['allergy']) ? $param['allergy'] : null;
-        $user_icon = isset($file['user_icon']) ? $file['user_icon'] : null;
 
         $error = [];
 
@@ -107,12 +106,6 @@ class ChildController {
                             }
                         }
 
-                        $allow_extension = GCS::allow_extension($user_icon);
-                        $icon_file_name = false;
-                        if ($allow_extension) {
-                            $icon_file_name = GCS::upload($user_icon, 'child-user-icon');
-                        }
-
                         if (
                             !$validation_user_id ||
                             !$validation_user_name ||
@@ -125,9 +118,7 @@ class ChildController {
                             !$validation_clothes_size ||
                             !$validation_shoes_size ||
                             !$validation_vaccination ||
-                            !$validation_allergy ||
-                            !$allow_extension ||
-                            !$icon_file_name
+                            !$validation_allergy
                         ) {
                             if (!$validation_user_id) $error[] = Error::$VALIDATION_USER_ID;
                             if (!$validation_user_name) $error[] = Error::$VALIDATION_USER_NAME;
@@ -141,8 +132,6 @@ class ChildController {
                             if (!$validation_shoes_size) $error[] = Error::$VALIDATION_SHOES_SIZE;
                             if (!$validation_vaccination) $error[] = Error::$VALIDATION_VACCINATION;
                             if (!$validation_allergy) $error[] = Error::$VALIDATION_ALLERGY;
-                            if (!$allow_extension) $error[] = Error::$ALLOW_EXTENSION;
-                            if (!$icon_file_name) $error[] = Error::$UPLOAD_FAILED;
 
                             $result = [
                                 'status' => 400,
@@ -161,7 +150,7 @@ class ChildController {
                                     'data' => null
                                 ];
                             } else {
-                                $child_id = ChildManager::add_child($inner_group_id, $user_id, $user_name, $birthday, $age, $gender, $blood_type, $icon_file_name);
+                                $child_id = ChildManager::add_child($inner_group_id, $user_id, $user_name, $birthday, $age, $gender, $blood_type);
                                 if (!is_null($vaccination)) {
                                     foreach ($vaccination as $value) {
                                         ChildManager::add_vaccination($child_id, $value['vaccine_name'], $value['visit_date']);
@@ -325,7 +314,6 @@ class ChildController {
         $allergy_delete = isset($param['allergy_delete']) ? $param['allergy_delete'] : null;
         $vaccination_new = isset($param['vaccination_new']) ? $param['vaccination_new'] : null;
         $allergy_new = isset($param['allergy_new']) ? $param['allergy_new'] : null;
-        $user_icon = isset($file['user_icon']) ? $file['user_icon'] : null;
 
         $error = [];
 
@@ -405,21 +393,10 @@ class ChildController {
                             }
                         }
 
-                        $allow_extension = true;
-                        $icon_file_name = true;
-                        if (!is_null($user_icon)) {
-                            $allow_extension = GCS::allow_extension($user_icon);
-                            if ($allow_extension) {
-                                $icon_file_name = GCS::upload($user_icon, 'child-user-icon');
-                            }
-                        }
-
-                        if (!$validation_vaccination || !$validation_allergy || !$unauthorized_operation || !$allow_extension || !$icon_file_name) {
+                        if (!$validation_vaccination || !$validation_allergy || !$unauthorized_operation) {
                             if (!$validation_vaccination) $error[] = Error::$VALIDATION_VACCINATION;
                             if (!$validation_allergy) $error[] = Error::$VALIDATION_ALLERGY;
                             if (!$unauthorized_operation) $error[] = Error::$UNAUTHORIZED_OPERATION;
-                            if (!$allow_extension) $error[] = Error::$ALLOW_EXTENSION;
-                            if (!$icon_file_name) $error[] = Error::$UPLOAD_FAILED;
 
                             $result = [
                                 'status' => 400,
@@ -449,10 +426,6 @@ class ChildController {
                                 foreach ($allergy_delete as $value) {
                                     ChildManager::delete_allergy($value);
                                 }
-                            }
-
-                            if (!is_null($user_icon)) {
-                                ChildManager::update_user_icon($inner_child_id, $icon_file_name);
                             }
 
                             $child_info = ChildManager::get_child($inner_child_id);
