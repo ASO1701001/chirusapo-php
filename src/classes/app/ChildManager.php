@@ -335,7 +335,8 @@ class ChildManager {
         $db = new DatabaseManager();
         $sql = "SELECT user_id, user_name, age
                 FROM account_child ac
-                WHERE ac.group_id IN (SELECT group_id FROM group_user WHERE user_id = :user_id)";
+                WHERE ac.group_id IN (SELECT group_id FROM group_user WHERE user_id = :user_id)
+                AND ac.delete_flg = false";
         $data = $db->fetchAll($sql, [
             'user_id' => $user_id
         ]);
