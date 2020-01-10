@@ -299,7 +299,7 @@ class ChildManager {
         ]);
         $result = [];
         foreach ($data as $value) {
-            $result[$value['add_date']][] = [
+            $result[$value['add_date']] = [
                 'body_height' => $value['body_height'],
                 'body_weight' => $value['body_weight'],
                 'clothes_size' => $value['clothes_size'],
@@ -321,7 +321,7 @@ class ChildManager {
         ]);
         $result = [];
         foreach ($data as $value) {
-            $result[$value['user_id']][$value['add_date']][] = [
+            $result[$value['user_id']][$value['add_date']] = [
                 'body_height' => $value['body_height'],
                 'body_weight' => $value['body_weight'],
                 'clothes_size' => $value['clothes_size'],
