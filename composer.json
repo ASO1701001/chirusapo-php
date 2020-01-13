@@ -6,6 +6,7 @@
     "php-ffmpeg/php-ffmpeg": "^0.14.0",
     "guzzlehttp/guzzle": "~6.0",
     "ext-pdo": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "google/apiclient": "^2.4"
   }
 }
