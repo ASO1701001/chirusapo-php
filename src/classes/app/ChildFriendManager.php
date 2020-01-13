@@ -124,11 +124,10 @@ class ChildFriendManager {
 
     public static function autofill_child_info($child_id) {
         $db = new DatabaseManager();
-        $sql = "SELECT user_name, birthday, gender, icon FROM account_child WHERE id = :child_id";
+        $sql = "SELECT user_name, birthday, gender FROM account_child WHERE id = :child_id";
         $data = $db->fetch($sql, [
             'child_id' => $child_id
         ]);
-        $data['icon'] = 'https://storage.googleapis.com/chirusapo/child-user-icon/'.$data['icon'];
         return $data;
     }
 }
