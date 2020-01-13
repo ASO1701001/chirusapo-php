@@ -6,12 +6,12 @@ use Swift_Message;
 use Swift_SmtpTransport;
 
 class Mailer {
-    private static $SERVER_DOMAIN = '';
+    private static $SERVER_DOMAIN = 'panda-orange-dcdb561bd4a90ba8.znlc.jp';
     private static $SERVER_PORT = 465;
     private static $SERVER_PROTOCOL = 'ssl';
-    private static $USERNAME = '';
-    private static $PASSWORD = '';
-    private static $FROM = '';
+    private static $USERNAME = 'chirusapo-mail@vxx0.com';
+    private static $PASSWORD = 'takahito1212';
+    private static $FROM = 'chirusapo-mail@vxx0.com';
 
     public function __construct($to, $subject, $body) {
         require_once __DIR__.'/../../../vendor/autoload.php';

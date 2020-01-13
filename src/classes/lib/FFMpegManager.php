@@ -14,8 +14,8 @@ class FFMpegManager {
         try {
             $file_name = random(20).'.jpg';
             $ffmpeg = FFMpeg::create([
-                'ffmpeg.binaries' => '/usr/bin/ffmpeg',
-                'ffprobe.binaries' => '/usr/bin/ffprobe',
+                'ffmpeg.binaries' => '/usr/local/bin/ffmpeg',
+                'ffprobe.binaries' => '/usr/local/bin/ffprobe',
                 'timeout' => 3600,
                 'ffmpeg.threads' => 12
             ]);

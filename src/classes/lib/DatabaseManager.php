@@ -6,19 +6,31 @@ use PDO;
 use PDOStatement;
 
 class DatabaseManager {
+    /*
     private $DB_SETTING = [
-        'db_name' => '',
-        'host' => '',
-        'charset' => '',
-        'user' => '',
-        'password' => ''
+        'db_name' => '2019ChiruSapo',
+        'host' => '35.247.17.100',
+        'port' => 3306
+        'charset' => 'utf8',
+        'user' => 'root',
+        'password' => 'dn9Jm6DjFatFe9ln'
+    ];
+    */
+
+    private $DB_SETTING = [
+        'db_name' => '2019ChiruSapo',
+        'host' => 'localhost',
+        'port' => '33066',
+        'charset' => 'utf8',
+        'user' => 'root',
+        'password' => 'password'
     ];
 
     /**
      * @return PDO
      */
     function pdo() {
-        $dsn = "mysql:dbname={$this->DB_SETTING['db_name']};host={$this->DB_SETTING['host']};port=3306;charset={$this->DB_SETTING['charset']}";
+        $dsn = "mysql:dbname={$this->DB_SETTING['db_name']};host={$this->DB_SETTING['host']};port={$this->DB_SETTING['port']};charset={$this->DB_SETTING['charset']}";
         try {
             $pdo = new PDO($dsn, $this->DB_SETTING['user'], $this->DB_SETTING['password']);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -8,10 +8,9 @@
 | child_id |   Yes   |
 | vaccination_delete[i] |   No   |
 | allergy_delete[i] |   No   |
-| vaccination_delete[i][vaccine_name] |   No   |
-| vaccination_delete[i][visit_date] |   No   |
-| allergy[i] |   No   |
-| user_icon |   No   |
+| vaccination_new[i][vaccine_name] |   No   |
+| vaccination_new[i][visit_date] |   No   |
+| allergy_new[i] |   No   |
 ## レスポンス
 ### 成功時
 > このAPIは成功した場合、子ども情報を返します
