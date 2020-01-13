@@ -32,10 +32,10 @@ class BotDataSheet {
         $body = new Google_Service_Sheets_ValueRange([
             'values' => $values,
         ]);
-        $response = $sheet->spreadsheets_values->append(
-            "1dAEjXD7_5wbsS8TX4aVdIemk3zhWT1d4FY6yDUSDaAs", // 作成したスプレッドシートのIDを入力
-            'data', //シート名
-            $body, //データ
+        $sheet->spreadsheets_values->append(
+            "1dAEjXD7_5wbsS8TX4aVdIemk3zhWT1d4FY6yDUSDaAs",
+            'data',
+            $body,
             ["valueInputOption" => 'USER_ENTERED']
         );
 
