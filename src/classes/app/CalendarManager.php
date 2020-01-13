@@ -1,6 +1,7 @@
 <?php
 namespace Application\App;
 
+use Application\Lib\BotDataSheet;
 use Application\lib\DatabaseManager;
 
 class CalendarManager {
@@ -20,6 +21,9 @@ class CalendarManager {
             'day' => $split_date[2],
             'remind_flg' => $remind_flg
         ]);
+        if ($remind_flg) {
+            BotDataSheet::insert($calendar_id, $date, $user_id, $title, $content);
+        }
         return $calendar_id;
     }
 

@@ -64,6 +64,7 @@ require_once __DIR__.'/../src/classes/lib/Mailer.php';
 require_once __DIR__.'/../src/classes/lib/GoogleCloudStorage.php';
 require_once __DIR__.'/../src/classes/lib/FFMpegManager.php';
 require_once __DIR__.'/../src/classes/lib/RemoveBg.php';
+require_once __DIR__.'/../src/classes/lib/BotDataSheet.php';
 // etc.
 require_once __DIR__.'/../src/classes/app/functions.php';
 
