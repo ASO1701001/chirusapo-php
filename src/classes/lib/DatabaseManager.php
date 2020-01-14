@@ -6,24 +6,12 @@ use PDO;
 use PDOStatement;
 
 class DatabaseManager {
-    /*
     private $DB_SETTING = [
-        'db_name' => '2019ChiruSapo',
-        'host' => '35.247.17.100',
-        'port' => 3306
-        'charset' => 'utf8',
-        'user' => 'root',
-        'password' => 'dn9Jm6DjFatFe9ln'
-    ];
-    */
-
-    private $DB_SETTING = [
-        'db_name' => '2019ChiruSapo',
-        'host' => 'localhost',
-        'port' => '33066',
-        'charset' => 'utf8',
-        'user' => 'root',
-        'password' => 'password'
+        'db_name' => '',
+        'host' => '',
+        'charset' => '',
+        'user' => '',
+        'password' => ''
     ];
 
     /**
