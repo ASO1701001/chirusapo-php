@@ -22,7 +22,13 @@ class CalendarManager {
             'remind_flg' => $remind_flg
         ]);
         if ($remind_flg) {
-            BotDataSheet::insert($calendar_id, $date, $user_id, $title, $content);
+            $search_sql = "SELECT line_token FROM account_user WHERE id = :user_id";
+            $line_id = $db->fetchColumn($search_sql, [
+                'user_id' => $user_id
+            ]);
+            if (!empty($line_id)) {
+                BotDataSheet::insert($calendar_id, $date, $line_id, $title, $content);
+            }
         }
         return $calendar_id;
     }
