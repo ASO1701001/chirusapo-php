@@ -121,6 +121,7 @@ $app->post('/account/password-reset', AccountController::class.':password_reset'
 $app->post('/account/password-change', AccountController::class.':password_change');
 $app->post('/account/edit', AccountController::class.':account_edit');
 $app->get('/account/member-user-info', AccountController::class.':member_user_info');
+$app->post('/account/line-cooperation', AccountController::class.':line_cooperation');
 
 $app->post('/token/verify-token', TokenController::class.':verify_token');
 

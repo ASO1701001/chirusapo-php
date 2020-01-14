@@ -528,4 +528,43 @@ class AccountController {
 
         return $response->withJson($result);
     }
+
+    public static function line_cooperation(Request $request, Response $response) {
+        $param = array_escape($request->getParsedBody());
+
+        $token = isset($param['token']) ? $param['token'] : null;
+        $line_id = isset($param['line_id']) ? $param['line_id'] : null;
+
+        if (is_nulls($token, $line_id)) {
+            $result = [
+                'status' => 400,
+                'message' => [
+                    Error::$REQUIRED_PARAM
+                ],
+                'data' => null
+            ];
+        } else {
+            $user_id = TokenManager::get_user_id($token);
+
+            if ($user_id) {
+                AccountManager::line_cooperation($user_id, $line_id);
+
+                $result = [
+                    'status' => 200,
+                    'message' => null,
+                    'data' => null
+                ];
+            } else {
+                $result = [
+                    'status' => 400,
+                    'message' => [
+                        Error::$UNKNOWN_TOKEN
+                    ],
+                    'data' => null
+                ];
+            }
+        }
+
+        return $response->withJson($result);
+    }
 }

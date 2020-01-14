@@ -275,4 +275,13 @@ EOF;
         ]);
         return $inner_user_id;
     }
+
+    public static function line_cooperation($user_id, $line_id) {
+        $db = new DatabaseManager();
+        $sql = "UPDATE account_user SET line_token = :line_id WHERE id = :user_id";
+        $db->execute($sql, [
+            'line_id' => $line_id,
+            'user_id' => $user_id
+        ]);
+    }
 }
